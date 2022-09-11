@@ -1,9 +1,8 @@
-import { Entity, Column, CreateDateColumn, PrimaryColumn, ManyToMany, JoinTable, UpdateDateColumn, JoinColumn, ManyToOne } from "typeorm";
+import { Entity, Column, CreateDateColumn, PrimaryColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Address } from "./Addresses";
 
-@Entity("user")
-export class User {
+@Entity("admin")
+export class Admin {
     @PrimaryColumn()
     id!: string;
     
@@ -18,13 +17,6 @@ export class User {
 
     @Column()
     phone_number!: string;
-    
-    @Column({ nullable: true })
-    address_number?: string;
-
-    @ManyToMany(type => Address, { eager: true })
-    @JoinTable()
-    address!: Address[];
 
     @CreateDateColumn()
     created_at!: string;
@@ -35,6 +27,6 @@ export class User {
     constructor() {
         if(!this.id) {
             this.id = uuid()
-        }
-    }
+        };
+    };
 }

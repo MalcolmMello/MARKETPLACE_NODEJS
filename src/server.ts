@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import "./db/dataSource";
 import express from 'express';
+import adminRoutes from './routes/admin';
 import userRoutes from './routes/user';
 import companiesRoutes from './routes/companies';
 import mpRoutes from './routes/mercadopago';
@@ -12,6 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/user", userRoutes);
 app.use("/companies", companiesRoutes);
+app.use("/admin", adminRoutes);
 app.use("/mp", mpRoutes);
 
 app.listen(5000, () => {

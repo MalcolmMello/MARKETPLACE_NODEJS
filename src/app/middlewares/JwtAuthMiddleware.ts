@@ -23,6 +23,9 @@ const JwtAuthMiddleware = async (request: Request, response: Response, next: Nex
             };
 
             request.userId = decodedData.id;
+            if(decodedData.isAdmin) {
+                request.userId = decodedData.isAdmin;
+            };
             next();
         } catch (error) {
             if(error instanceof Error) {

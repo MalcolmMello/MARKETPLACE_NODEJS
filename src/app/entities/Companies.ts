@@ -47,6 +47,9 @@ export class Companies {
     @Column({ nullable: true })
     cover!: string;
 
+    @Column({ type: "varchar", default: "Em Aprovação"})
+    isApproved!: "Em Aprovação" | "Aprovado" | "Rejeitado" | "Suspenso";
+
     @CreateDateColumn()
     created_at!: string;
 

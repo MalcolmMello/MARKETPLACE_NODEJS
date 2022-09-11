@@ -5,6 +5,7 @@ import { Products } from '../entities/Products';
 import { User } from "../entities/User";
 import { Categories } from "../entities/Categories";
 import { CategoryProduct } from "../entities/CategoriesProducts";
+import { Admin } from "../entities/Admin";
 
 export const userRepository = () => {
     return AppDataSource.getRepository(User);
@@ -28,4 +29,8 @@ export const categoriesRepository = () => {
 
 export const productsCategoriesRepository = () => {
     return AppDataSource.getRepository(CategoryProduct);
+};
+
+export const adminRepository = () => {
+    return AppDataSource.getRepository(Admin);
 };

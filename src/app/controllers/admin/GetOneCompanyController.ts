@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { GetOneCompanyService } from "../../services/users/GetOneCompanyService";
+import { GetOneCompanyService } from "../../services/admin/GetOneCompanyService";
 
 export class GetOneCompanyController {
     async handle(request: Request, response: Response) {
