@@ -3,7 +3,7 @@ import { v4 as uuid } from "uuid";
 import { Companies } from "./Companies";
 import { User } from "./User";
 
-@Entity("user_address")
+@Entity("address")
 export class Address {
     @PrimaryColumn()
     id!: string;
