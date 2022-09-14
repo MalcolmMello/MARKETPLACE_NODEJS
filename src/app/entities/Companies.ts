@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import { Address } from "./Addresses";
 import { Categories } from "./Categories";
 import { CategoryProduct } from "./CategoriesProducts";
+import { Requests } from "./Request";
 
 @Entity("company")
 export class Companies {
@@ -40,6 +41,9 @@ export class Companies {
 
     @OneToMany(() => CategoryProduct, (categories_products) => categories_products.company, { eager: true })
     categories_products!: CategoryProduct[];
+
+    @OneToMany(() => Requests, (requests) => requests.company, { eager: true })
+    requests!: Requests[];
 
     @Column({ nullable: true })
     logo!: string;
