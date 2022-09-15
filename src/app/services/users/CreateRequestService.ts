@@ -1,5 +1,5 @@
 import { Products } from "../../entities/Products";
-import { companiesRepository, productsRepository, requestRepository, userRepository } from "../../repositories";
+import { companiesRepository, productsRepository, requestProductsRepository, requestRepository, userRepository } from "../../repositories";
 
 type RequestData = {
     userId: string,
@@ -13,7 +13,7 @@ type RequestData = {
         }[],
         status: "Pendente",
         card: {
-            number: number,
+            number: string,
             holder_name: string,
             exp_month: number,
             exp_year: number,
@@ -32,7 +32,6 @@ type RequestProductData = {
 
 export class CreateRequestService {
     async execute({ userId, request_data }: RequestData) {
-
         const user = await userRepository().findOneBy({ id: userId });
 
         if(user == null) {
@@ -47,6 +46,7 @@ export class CreateRequestService {
             return new Error("No companies with that id.");
         };
 
+        console.log(request_data.company_id);
         const request_products: RequestProductData = [];
 
         let total: number = 0;
@@ -61,18 +61,19 @@ export class CreateRequestService {
                     price: existProduct.price
                 });
 
-                total =+ existProduct.price * product.length;
+                total = total + (existProduct.price * product.length);
             };
         };
 
         const newRequest = requestRepository()
-            .create({ user_id: userId, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total, request_products});
+            .create({ userId, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total, request_products });
 
         await requestRepository().save(newRequest);
 
         const result = {
             status: newRequest.status,
             endereco_entrega: address,
+            products: newRequest.request_products,
             total 
         };
 

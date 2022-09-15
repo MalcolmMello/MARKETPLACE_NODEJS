@@ -9,7 +9,10 @@ export class RequestProducts {
     id!: string;
 
     @Column()
-    product_id!: string;
+    productId!: string;
+
+    @Column()
+    requestId!: string;
 
     @Column()
     length!: number;
@@ -17,7 +20,7 @@ export class RequestProducts {
     @Column({ type: "float8" })
     price!: number;
 
-    @ManyToOne(type => Products, requestproducts => RequestProducts)
+    @ManyToOne(type => Products, requestproducts => RequestProducts, { eager: true })
     product!: Products;
 
     @ManyToOne(type => Requests, requestproducts => RequestProducts)

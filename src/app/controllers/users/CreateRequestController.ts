@@ -3,7 +3,7 @@ import { CreateRequestService } from '../../services/users/CreateRequestService'
 
 export class CreateRequestController {
     async handle(request: Request, response: Response) {
-        const request_data = request.body;
+        const { request_data } = request.body;
         const userId = request.userId;
 
         const createRequestService = new CreateRequestService();

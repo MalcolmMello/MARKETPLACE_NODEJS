@@ -11,7 +11,7 @@ export class Requests {
     id!: string;
 
     @Column()
-    user_id!: string;
+    userId!: string;
 
     @Column()
     company_id!: string;
@@ -28,14 +28,14 @@ export class Requests {
     @Column({ type: "float8" })
     total!: number;
 
-    @ManyToOne(() => Companies, { eager: true } )
+    @ManyToOne(() => Companies )
     @JoinColumn({ name: "company_id" })
     company!: Companies;
     
     @ManyToOne(type => User, request => Requests)
     user!: User;
 
-    @OneToMany(type => RequestProducts, request => Requests)
+    @OneToMany(() => RequestProducts, (requestProducts) => requestProducts.request, { eager: true })
     request_products!: RequestProducts[];
 
     @CreateDateColumn()

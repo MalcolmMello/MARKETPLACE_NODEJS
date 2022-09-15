@@ -16,6 +16,7 @@ import { SearchForCompanyOrProductController } from "../app/controllers/users/Se
 import AuthValidator from "../app/validators/AuthValidator";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AddressValidator from "../app/validators/AddressValidator";
+import { CreateRequestController } from "../app/controllers/users/CreateRequestController";
 
 const routes = Router();
 
@@ -40,7 +41,7 @@ routes.get("/companies/:id", new GetOneCompanyController().handle);
 routes.get("/product/:id", new GetProductByIdController().handle);
 routes.get("/search", new SearchForCompanyOrProductController().handle);
 
-
-
+/* request */
+routes.post("/request", JwtAuthMiddleware, new CreateRequestController().handle);
 
 export default routes;
