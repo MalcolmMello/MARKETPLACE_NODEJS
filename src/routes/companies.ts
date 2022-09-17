@@ -12,9 +12,11 @@ import { UpdateProductController } from "../app/controllers/companies/UpdateProd
 import { DeleteProductController } from "../app/controllers/companies/DeleteProductController";
 import { GetAllProductsController } from "../app/controllers/companies/GetAllProductsController";
 import { GetOneProductController } from "../app/controllers/companies/GetOneProductController";
+import { GetAllRequestsController } from "../app/controllers/companies/GetAllRequestsController";
+import { GetOneRequestController } from "../app/controllers/companies/GetOneRequestController";
+import { DeliveredOneRequestController } from "../app/controllers/companies/DeliveredOneRequestController";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
-
 
 
 
@@ -37,5 +39,9 @@ routes.put("/product/:productId", JwtAuthMiddleware, new UpdateProductController
 routes.delete("/product/:productId", JwtAuthMiddleware, new DeleteProductController().handle);
 routes.get("/product", JwtAuthMiddleware, new GetAllProductsController().handle);
 routes.get("/product/:productId", JwtAuthMiddleware, new GetOneProductController().handle);
+
+routes.get("/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
+routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
+routes.put("/deliveredrequest/:requestId", JwtAuthMiddleware, new DeliveredOneRequestController().handle);
 
 export default routes;

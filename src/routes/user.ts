@@ -13,10 +13,13 @@ import { GetAllCompaniesController } from "../app/controllers/users/GetAllCompan
 import { GetOneCompanyController } from "../app/controllers/users/GetOneCompanyController";
 import { GetProductByIdController } from "../app/controllers/users/GetProductByIdController";
 import { SearchForCompanyOrProductController } from "../app/controllers/users/SearchForCompanyOrProductController";
+import { CreateRequestController } from "../app/controllers/users/CreateRequestController";
+import { GetAllRequestsController } from "../app/controllers/users/GetAllRequestsController";
+import { GetOneRequestController } from "../app/controllers/users/GetOneRequestController";
+import { CancelOneRequestController } from "../app/controllers/users/CancelOneRequestController";
 import AuthValidator from "../app/validators/AuthValidator";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AddressValidator from "../app/validators/AddressValidator";
-import { CreateRequestController } from "../app/controllers/users/CreateRequestController";
 
 const routes = Router();
 
@@ -43,5 +46,9 @@ routes.get("/search", new SearchForCompanyOrProductController().handle);
 
 /* request */
 routes.post("/request", JwtAuthMiddleware, new CreateRequestController().handle);
+routes.get("/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
+routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
+routes.put("/request/:requestId", JwtAuthMiddleware, new CancelOneRequestController().handle);
+
 
 export default routes;

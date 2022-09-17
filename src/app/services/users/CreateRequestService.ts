@@ -26,6 +26,9 @@ type RequestData = {
 };
 type RequestProductData = {
     product_id: string,
+    product_name: string,
+    description: string,
+    front_cover: string,
     length: number,
     price: number
 }[];
@@ -46,7 +49,6 @@ export class CreateRequestService {
             return new Error("No companies with that id.");
         };
 
-        console.log(request_data.company_id);
         const request_products: RequestProductData = [];
 
         let total: number = 0;
@@ -54,26 +56,40 @@ export class CreateRequestService {
         for(let product of request_data.products) {
             const existProduct = await productsRepository().findOneBy({ id: product.id });
 
-            if(existProduct instanceof Products) {
-                request_products.push({
-                    product_id: existProduct.id,
-                    length: product.length,
-                    price: existProduct.price
-                });
-
-                total = total + (existProduct.price * product.length);
+            if(existProduct == null) {
+                return new Error("Product doesn't exists.");
             };
+
+            if(existProduct.company_id !== company.id) {
+                return new Error("Product doesn't belongs to that enterprise");
+            };
+
+            request_products.push({
+                product_id: existProduct.id,
+                product_name: existProduct.product_name,
+                description: existProduct.product_name,
+                front_cover: existProduct.front_cover,
+                length: product.length,
+                price: existProduct.price,
+            });
+
+            total = total + (existProduct.price * product.length);
         };
 
         const newRequest = requestRepository()
-            .create({ userId, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total, request_products });
+            .create({ userId, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total });
 
         await requestRepository().save(newRequest);
+
+        for(let requestProducts of request_products) {
+            const newRequestProduct = requestProductsRepository().create({ productId: requestProducts.product_id, requestId: newRequest.id, price: requestProducts.price, length: requestProducts.length });
+            await requestProductsRepository().save(newRequestProduct);
+        };
 
         const result = {
             status: newRequest.status,
             endereco_entrega: address,
-            products: newRequest.request_products,
+            products: request_products,
             total 
         };
 

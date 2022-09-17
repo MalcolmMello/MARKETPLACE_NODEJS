@@ -20,7 +20,7 @@ export class Requests {
     user_address_id!: string;
 
     @Column({ type: "varchar", default: "Pendente" })
-    status!: "Pendente" | "Entregue";
+    status!: "Pendente" | "Cancelado" | "Entregue";
 
     @Column()
     address_number!: string;
@@ -32,8 +32,12 @@ export class Requests {
     @JoinColumn({ name: "company_id" })
     company!: Companies;
     
-    @ManyToOne(type => User, request => Requests)
+    @ManyToOne(type => User, request => Requests, { eager: true })
     user!: User;
+
+    @ManyToOne(() => Address, request => Requests, { eager: true })
+    @JoinColumn({ name: "user_address_id" })
+    address!: Address;
 
     @OneToMany(() => RequestProducts, (requestProducts) => requestProducts.request, { eager: true })
     request_products!: RequestProducts[];
