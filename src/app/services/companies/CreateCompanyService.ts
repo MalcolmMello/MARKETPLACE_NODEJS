@@ -59,7 +59,19 @@ export class CreateCompanyService {
 
             await companiesRepository().save(newCompany);
 
-            return newCompany;
+            const result = {
+                id: newCompany.id,
+                company_name: newCompany.company_name,
+                phone_number: newCompany.phone_number,
+                address_number: newCompany.address_number,
+                cnpj: newCompany.cnpj,
+                addressId: newCompany.addressId,
+                logo: newCompany.logo,
+                cover: newCompany.cover,
+                isApproved: newCompany.isApproved
+            };
+
+            return result;
         };
 
         //if address doesn't exists, create, and then create a new company
@@ -84,7 +96,19 @@ export class CreateCompanyService {
             await companiesRepository().save(newCompany);
             
 
-            return newCompany;
+            const result = {
+                id: newCompany.id,
+                company_name: newCompany.company_name,
+                phone_number: newCompany.phone_number,
+                address_number: newCompany.address_number,
+                cnpj: newCompany.cnpj,
+                addressId: newCompany.addressId,
+                logo: newCompany.logo,
+                cover: newCompany.cover,
+                isApproved: newCompany.isApproved
+            };
+
+            return result;
         } else {
             return new Error("Addresses doesn't match each other");
         }

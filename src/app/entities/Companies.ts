@@ -31,6 +31,12 @@ export class Companies {
     @Column()
     addressId!: string;
 
+    @Column({ nullable: true })
+    description!: string;
+
+    @Column({ nullable: true })
+    main_service!: string;
+
     @ManyToMany(type => Categories)
     @JoinTable()
     categories!: Categories[];

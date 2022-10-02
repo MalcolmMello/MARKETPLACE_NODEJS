@@ -15,13 +15,21 @@ import { GetOneProductController } from "../app/controllers/companies/GetOneProd
 import { GetAllRequestsController } from "../app/controllers/companies/GetAllRequestsController";
 import { GetOneRequestController } from "../app/controllers/companies/GetOneRequestController";
 import { DeliveredOneRequestController } from "../app/controllers/companies/DeliveredOneRequestController";
+import { UpdateCompanyDataController } from "../app/controllers/companies/UpdateCompanyDataController";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
+import multer from "multer";
 
-
+const upload = multer({
+    dest: './tmp',
+    fileFilter: (req, file, cb) => {
+            const allowed: string[] = ['image/jpg', 'image/jpeg', 'image/png']
+            cb(null, allowed.includes( file.mimetype )) // confere o tipo de arquivo
+    },
+    limits: { fieldSize: 4000000 } // tamanho máximo do arquivo, 4mb
+})
 
 const routes = Router();
-
 
 routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
 routes.post("/signin", AuthCompanyValidator.signin, new LoginCompanyController().handle);
@@ -43,5 +51,10 @@ routes.get("/product/:productId", JwtAuthMiddleware, new GetOneProductController
 routes.get("/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
 routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
 routes.put("/deliveredrequest/:requestId", JwtAuthMiddleware, new DeliveredOneRequestController().handle);
+
+routes.post("/perfil", JwtAuthMiddleware, upload.fields([
+    {name: 'logo', maxCount: 1},
+    {name: 'cover', maxCount: 1}
+]), new UpdateCompanyDataController().handle);
 
 export default routes;

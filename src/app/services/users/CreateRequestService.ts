@@ -1,4 +1,3 @@
-import { Products } from "../../entities/Products";
 import { companiesRepository, productsRepository, requestProductsRepository, requestRepository, userRepository } from "../../repositories";
 
 type RequestData = {
