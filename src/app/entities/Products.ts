@@ -27,7 +27,7 @@ export class Products {
     @Column()
     description!: string;
 
-    @Column()
+    @Column({ nullable: true })
     front_cover!: string;
 
     @Column({ type: "float8" })

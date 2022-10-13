@@ -27,7 +27,7 @@ const upload = multer({
             cb(null, allowed.includes( file.mimetype )) // confere o tipo de arquivo
     },
     limits: { fieldSize: 4000000 } // tamanho máximo do arquivo, 4mb
-})
+});
 
 const routes = Router();
 
@@ -42,7 +42,7 @@ routes.put("/category/:categoryId", JwtAuthMiddleware, new UpdateCategoryProduct
 routes.delete("/category/:categoryId", JwtAuthMiddleware, new DeleteCategoryProductController().handle);
 routes.get("/category", JwtAuthMiddleware, new GetCategoryProductController().handle);
 
-routes.post("/product", JwtAuthMiddleware, new CreateProductController().handle);
+routes.post("/product", JwtAuthMiddleware, upload.single('front_cover'), new CreateProductController().handle);
 routes.put("/product/:productId", JwtAuthMiddleware, new UpdateProductController().handle);
 routes.delete("/product/:productId", JwtAuthMiddleware, new DeleteProductController().handle);
 routes.get("/product", JwtAuthMiddleware, new GetAllProductsController().handle);
