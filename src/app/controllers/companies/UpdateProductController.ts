@@ -3,9 +3,10 @@ import { UpdateProductService } from "../../services/companies/UpdateProductServ
 
 export class UpdateProductController {
     async handle(request: Request, response: Response) {
-        const { categoryProductId, product_name, description, front_cover, price } = request.body;
+        const { categoryProductId, product_name, description, price } = request.body;
         const { productId } = request.params;
         const companyId = request.userId;
+        const front_cover = request.file;
 
         const priceToFloat = Number(price);
 

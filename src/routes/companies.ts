@@ -43,7 +43,7 @@ routes.delete("/category/:categoryId", JwtAuthMiddleware, new DeleteCategoryProd
 routes.get("/category", JwtAuthMiddleware, new GetCategoryProductController().handle);
 
 routes.post("/product", JwtAuthMiddleware, upload.single('front_cover'), new CreateProductController().handle);
-routes.put("/product/:productId", JwtAuthMiddleware, new UpdateProductController().handle);
+routes.put("/product/:productId", JwtAuthMiddleware, upload.single('front_cover'), new UpdateProductController().handle);
 routes.delete("/product/:productId", JwtAuthMiddleware, new DeleteProductController().handle);
 routes.get("/product", JwtAuthMiddleware, new GetAllProductsController().handle);
 routes.get("/product/:productId", JwtAuthMiddleware, new GetOneProductController().handle);

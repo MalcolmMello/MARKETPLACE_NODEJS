@@ -59,7 +59,7 @@ export class CreateProductService {
 
         const result = {
             message: "Product successfully created!",
-            newProduct: {...newProduct, front_cover: newProduct.front_cover != null ? `http://localhost:5000/media/${newProduct.front_cover}.jpg` : newProduct.front_cover}
+            newProduct
         };
 
         return result; 
