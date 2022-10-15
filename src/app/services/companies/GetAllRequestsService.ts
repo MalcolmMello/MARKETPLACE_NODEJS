@@ -50,6 +50,7 @@ export class GetAllRequestsService {
                 total: request.total,
                 address: {...address, number: request.address_number },
                 status: request.status,
+                created_at: request.created_at,
                 products
             });
         };
