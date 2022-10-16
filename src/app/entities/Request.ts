@@ -1,8 +1,9 @@
 import { Entity, PrimaryColumn, Column, OneToMany, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Address } from "./Addresses";
-import { Companies } from "./Companies";
+import { Address } from "./Address";
+import { Companies } from "./Company";
 import { RequestProducts } from "./RequestProduct";
+import { Status } from "./Status";
 import { User } from "./User";
 
 @Entity("request")
@@ -19,14 +20,21 @@ export class Requests {
     @Column()
     user_address_id!: string;
 
-    @Column({ type: "varchar", default: "Pendente" })
-    status!: "Pendente" | "Cancelado" | "Entregue";
+    @Column({ type: "varchar"})
+    status_id!: string;
+
+    @ManyToOne(() => Status, { eager: true })
+    @JoinColumn({ name: "status_id" })
+    status!: Status; 
 
     @Column()
     address_number!: string;
 
     @Column({ type: "float8" })
     total!: number;
+
+    @Column()
+    isDelivery!: boolean;
 
     @ManyToOne(() => Companies )
     @JoinColumn({ name: "company_id" })

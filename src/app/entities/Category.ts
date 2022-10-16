@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryColumn, JoinTable, ManyToMany, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { CategoryProduct } from "./CategoriesProducts";
-import { Companies } from "./Companies";
-import { Products } from "./Products";
+import { CategoryProduct } from "./CategoryProduct";
+import { Companies } from "./Company";
+import { Products } from "./Product";
 
 @Entity("category")
 export class Categories {

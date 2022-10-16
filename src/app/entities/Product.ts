@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { CategoryProduct } from "./CategoriesProducts";
-import { Companies } from "./Companies";
+import { CategoryProduct } from "./CategoryProduct";
+import { Companies } from "./Company";
 
 @Entity("company_product")
 export class Products {

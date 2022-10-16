@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn, Column, OneToMany, ManyToOne, CreateDateColumn, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Products } from "./Products";
+import { Products } from "./Product";
 import { Requests } from "./Request";
 
 @Entity("request_product")

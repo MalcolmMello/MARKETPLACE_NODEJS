@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Address } from "./Addresses";
-import { Categories } from "./Categories";
-import { CategoryProduct } from "./CategoriesProducts";
+import { Address } from "./Address";
+import { Categories } from "./Category";
+import { CategoryProduct } from "./CategoryProduct";
 import { Requests } from "./Request";
 
 @Entity("company")

@@ -1,6 +1,6 @@
 import { Entity, Column, CreateDateColumn, PrimaryColumn, ManyToMany, OneToMany, UpdateDateColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
-import { Companies } from "./Companies";
+import { Companies } from "./Company";
 import { User } from "./User";
 
 @Entity("address")

@@ -1,13 +1,14 @@
 import { AppDataSource } from "../../db/dataSource";
-import { Address } from "../entities/Addresses";
-import { Companies } from "../entities/Companies";
-import { Products } from '../entities/Products';
+import { Address } from "../entities/Address";
+import { Companies } from "../entities/Company";
+import { Products } from '../entities/Product';
 import { User } from "../entities/User";
-import { Categories } from "../entities/Categories";
-import { CategoryProduct } from "../entities/CategoriesProducts";
+import { Categories } from "../entities/Category";
+import { CategoryProduct } from "../entities/CategoryProduct";
 import { Admin } from "../entities/Admin";
 import { Requests } from "../entities/Request";
 import { RequestProducts } from "../entities/RequestProduct";
+import { Status } from "../entities/Status";
 
 
 export const userRepository = () => {
@@ -44,4 +45,8 @@ export const requestRepository = () => {
 
 export const requestProductsRepository = () => {
     return AppDataSource.getRepository(RequestProducts);
+};
+
+export const statusRepository = () => {
+    return AppDataSource.getRepository(Status);
 };

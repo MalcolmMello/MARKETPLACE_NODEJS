@@ -1,4 +1,4 @@
-import { requestRepository } from "../../repositories";
+import { requestRepository, statusRepository } from "../../repositories";
 
 type OneRequestService = {
     userId: string,
@@ -21,7 +21,13 @@ export class CancelOneRequestService {
             return new Error("Request doesn't exists.");
         };
 
-        request.status = "Cancelado";
+        const status = await statusRepository().findOneBy({ status_name: "Cancelado" });
+
+        if(status == null) {
+            return new Error("Status doesn't exists.");
+        };
+        
+        request.status_id = status.id;
 
         await requestRepository().save(request);
 

@@ -1,11 +1,11 @@
-import { requestRepository } from "../../repositories";
+import { requestRepository, statusRepository } from "../../repositories";
 
 type OneRequestService = {
     companyId: string,
     requestId: string
 };
 
-export class DeliveredOneRequestService {
+export class DeliveringOneRequestService {
     async execute({ companyId, requestId }: OneRequestService) {
         if(!companyId) {
             return new Error("Invalid company's id.");
@@ -21,7 +21,13 @@ export class DeliveredOneRequestService {
             return new Error("Request doesn't exists.");
         };
 
-        request.status = "Entregue";
+        const status = await statusRepository().findOneBy({ status_name: "Saiu para entrega" });
+
+        if(status == null) {
+            return new Error("Status doesn't exists.");
+        };
+
+        request.status_id = status.id;
 
         await requestRepository().save(request);
 

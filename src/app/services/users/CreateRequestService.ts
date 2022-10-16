@@ -1,4 +1,4 @@
-import { companiesRepository, productsRepository, requestProductsRepository, requestRepository, userRepository } from "../../repositories";
+import { companiesRepository, productsRepository, requestProductsRepository, requestRepository, statusRepository, userRepository } from "../../repositories";
 
 type RequestData = {
     userId: string,
@@ -6,11 +6,11 @@ type RequestData = {
         company_id: string,
         user_address_id: string,
         address_number: string,
+        isDelivery: boolean,
         products: {
             id: string,
             length: number
         }[],
-        status: "Pendente",
         card: {
             number: string,
             holder_name: string,
@@ -75,8 +75,10 @@ export class CreateRequestService {
             total = total + (existProduct.price * product.length);
         };
 
+        const status = await statusRepository().findOneBy({ status_name: "Em aberto" });
+
         const newRequest = requestRepository()
-            .create({ userId, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total });
+            .create({ userId, isDelivery: request_data.isDelivery, status_id: status?.id, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total });
 
         await requestRepository().save(newRequest);
 
@@ -86,7 +88,7 @@ export class CreateRequestService {
         };
 
         const result = {
-            status: newRequest.status,
+            status: newRequest.status.status_name,
             endereco_entrega: address,
             products: request_products,
             total 

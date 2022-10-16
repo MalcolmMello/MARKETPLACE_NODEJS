@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { DeliveredOneRequestService } from "../../services/companies/DeliveredOneRequestService";
+import { DeliveringOneRequestService } from "../../services/companies/DeliveredOneRequestService";
 
-export class DeliveredOneRequestController {
+export class DeliveringOneRequestController {
     async handle(request: Request, response: Response) {
         const { requestId } = request.params; 
         const companyId = request.userId;
-        const deliveredOneRequestService = new DeliveredOneRequestService();
+        const deliveredOneRequestService = new DeliveringOneRequestService();
 
         const result = await deliveredOneRequestService.execute({ companyId, requestId });
 
