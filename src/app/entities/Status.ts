@@ -8,7 +8,7 @@ export class Status {
     id!: string;
     
     @Column()
-    status_name!: "Pronto para retirada" | "Em preparo" | "Concluído" | "Em aberto" | "Cancelado" | "Em aberto" | "Saiu para entrega";
+    status_name!: "Pronto para retirada" | "Em preparo" | "Concluído" | "Cancelado pela empresa" | "Cancelado pelo cliente" | "Em aberto" | "Saiu para entrega";
 
     @OneToMany(() => Requests, (request) => request.status)
     requests!: Requests[];

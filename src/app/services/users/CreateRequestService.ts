@@ -77,8 +77,12 @@ export class CreateRequestService {
 
         const status = await statusRepository().findOneBy({ status_name: "Em aberto" });
 
+        if(status == null) {
+            return new Error("Something went wrong.");
+        };
+
         const newRequest = requestRepository()
-            .create({ userId, isDelivery: request_data.isDelivery, status_id: status?.id, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total });
+            .create({ userId, isDelivery: request_data.isDelivery, status_id: status.id, company_id: request_data.company_id, user_address_id: request_data.user_address_id, address_number: request_data.address_number, total });
 
         await requestRepository().save(newRequest);
 
@@ -88,7 +92,7 @@ export class CreateRequestService {
         };
 
         const result = {
-            status: newRequest.status.status_name,
+            status: status.status_name,
             endereco_entrega: address,
             products: request_products,
             total 

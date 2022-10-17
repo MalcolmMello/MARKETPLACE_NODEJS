@@ -14,7 +14,7 @@ import { GetAllProductsController } from "../app/controllers/companies/GetAllPro
 import { GetOneProductController } from "../app/controllers/companies/GetOneProductController";
 import { GetAllRequestsController } from "../app/controllers/companies/GetAllRequestsController";
 import { GetOneRequestController } from "../app/controllers/companies/GetOneRequestController";
-import { DeliveringOneRequestController } from "../app/controllers/companies/DeliveredOneRequestController";
+import { ChangeRequestStatusController } from "../app/controllers/companies/ChangeRequestStatusController";
 import { UpdateCompanyDataController } from "../app/controllers/companies/UpdateCompanyDataController";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
@@ -50,7 +50,7 @@ routes.get("/product/:productId", JwtAuthMiddleware, new GetOneProductController
 
 routes.get("/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
 routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
-routes.put("/deliveredrequest/:requestId", JwtAuthMiddleware, new DeliveringOneRequestController().handle);
+routes.put("/changerequeststatus/:requestId", JwtAuthMiddleware, new ChangeRequestStatusController().handle);
 
 routes.post("/perfil", JwtAuthMiddleware, upload.fields([
     {name: 'logo', maxCount: 1},
