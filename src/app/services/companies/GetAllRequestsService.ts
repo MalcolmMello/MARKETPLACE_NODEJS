@@ -51,6 +51,7 @@ export class GetAllRequestsService {
                 address: {...address, number: request.address_number },
                 status: request.status,
                 created_at: request.created_at,
+                isDelivery: request.isDelivery,
                 products
             });
         };
