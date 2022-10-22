@@ -5,6 +5,7 @@ import sharp from "sharp";
 type UpdateCompanyData = {
     new_name: string,
     description: string,
+    phone_number: string,
     files: { 
         logo: Express.Multer.File[],
         cover: Express.Multer.File[]
@@ -13,7 +14,7 @@ type UpdateCompanyData = {
 };
 
 export class UpdateCompanyDataService {
-    async execute({ new_name, description, files, companyId }: UpdateCompanyData) {
+    async execute({ new_name, description, phone_number, files, companyId }: UpdateCompanyData) {
         if(!companyId) {
             return new Error("Missing company's id.");
         };
@@ -32,6 +33,7 @@ export class UpdateCompanyDataService {
 
         existCompany.company_name = new_name ? new_name : existCompany.company_name;
         existCompany.description = description ? description : existCompany.description;
+        existCompany.phone_number = phone_number ? phone_number : existCompany.phone_number;
         
         let logo: string;
         let cover: string;
@@ -71,8 +73,9 @@ export class UpdateCompanyDataService {
         await companiesRepository().save(existCompany);
 
         const result = {
-            company_name: new_name,
-            description,
+            company_name: existCompany.company_name,
+            description: existCompany.description,
+            phone_number: existCompany.phone_number,
             logo: existCompany.logo != null ? `http://localhost:5000/media/${existCompany.logo}.jpg` : existCompany.logo,
             cover: existCompany.cover != null ? `http://localhost:5000/media/${existCompany.cover}.jpg` : existCompany.cover
         };

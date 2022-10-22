@@ -19,6 +19,7 @@ import { UpdateCompanyDataController } from "../app/controllers/companies/Update
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
 import multer from "multer";
+import { GetPerfilDataController } from "../app/controllers/companies/GetPerfilDataController";
 
 const upload = multer({
     dest: './tmp',
@@ -52,6 +53,7 @@ routes.get("/request", JwtAuthMiddleware, new GetAllRequestsController().handle)
 routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
 routes.put("/changerequeststatus/:requestId", JwtAuthMiddleware, new ChangeRequestStatusController().handle);
 
+routes.get("/perfil", JwtAuthMiddleware, new GetPerfilDataController().handle);
 routes.post("/perfil", JwtAuthMiddleware, upload.fields([
     {name: 'logo', maxCount: 1},
     {name: 'cover', maxCount: 1}
