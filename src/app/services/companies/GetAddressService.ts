@@ -18,9 +18,9 @@ export class GetAddressService {
             return new Error("Company doesn't exists");
         };
 
-        const address = await addressRepository().findOneBy({ id: company.addressId })
+        const address = await addressRepository().findOneBy({ id: company.addressId });
 
-        const result = address;
+        const result = {...address, number: company.address_number};
         
         return result;
     };

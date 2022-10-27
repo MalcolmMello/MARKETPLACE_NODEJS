@@ -1,4 +1,4 @@
-import { companiesRepository } from "../../repositories";
+import { addressRepository, companiesRepository } from "../../repositories";
 
 export class GetPerfilDataService {
     async execute(companyId: string) {
