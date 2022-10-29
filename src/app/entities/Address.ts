@@ -29,13 +29,13 @@ export class Address {
     @Column()
     state!: string;
 
-    @Column()
+    @Column({default: 'Brasil'})
     country!: string;
 
-    @Column({ type:"float8" })
+    @Column({ type:"float8", nullable: true })
     latitude!: number;
 
-    @Column({ type:"float8" })
+    @Column({ type:"float8", nullable: true })
     longitude!: number;
 
     @CreateDateColumn()

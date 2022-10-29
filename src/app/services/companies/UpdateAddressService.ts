@@ -38,7 +38,9 @@ export class UpdateAddressService {
             return new Error("Company doesn't exists");
         };
 
-        const existAddress = await addressRepository().findOneBy({ zip_code });
+        const zipcode = zip_code.replace("-", "");
+
+        const existAddress = await addressRepository().findOneBy({ zip_code: zipcode });
 
         if(existAddress) {
             const existCompany = await companiesRepository().findOneBy({ id: companyId });
@@ -49,13 +51,16 @@ export class UpdateAddressService {
                 
                 await companiesRepository().save(existCompany);
 
-                return existCompany;
+                const result = {
+                    ...existAddress,
+                    address_number: existCompany.address_number
+                };
+
+                return result;
             }
         };
 
         //if address doesn't exists, create and then create a new company
-
-        const zipcode = zip_code.replace("-", "");
 
         let isAddressReal: isAddressReal = await api.foundAddressByZipCode(zipcode);
 
@@ -66,7 +71,7 @@ export class UpdateAddressService {
         const matchedAddress = isAddressReal.uf === state && isAddressReal.localidade === city && isAddressReal.bairro === district && isAddressReal.logradouro === street;
         
         if(matchedAddress) {
-            const newAddress = addressRepository().create({ street, district, zip_code, city, state, country, longitude, latitude });
+            const newAddress = addressRepository().create({ street, district, zip_code: zipcode, city, state, country, longitude, latitude });
         
             await addressRepository().save(newAddress);
 
@@ -78,7 +83,12 @@ export class UpdateAddressService {
                 
                 await companiesRepository().save(existCompany);
 
-                return existCompany;
+                const result = {
+                    ...newAddress,
+                    address_number: existCompany.address_number
+                };
+
+                return result;
             }
         } else {
             return new Error("Addresses doesn't match each other");
