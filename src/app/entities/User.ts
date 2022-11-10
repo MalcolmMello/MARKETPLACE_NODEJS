@@ -7,19 +7,19 @@ export class User {
     @PrimaryColumn()
     id!: string;
     
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     username!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 60 })
     email!: string;
 
     @Column()
     password!: string;
 
-    @Column()
+    @Column({ type:"char", length: 15 })
     phone_number!: string;
     
-    @Column({ nullable: true })
+    @Column({ type: "char", length: 6, nullable: true })
     address_number?: string;
 
     @ManyToMany(type => Address, { eager: true })

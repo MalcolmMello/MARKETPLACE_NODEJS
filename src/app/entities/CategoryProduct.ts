@@ -5,16 +5,16 @@ import { Products } from "./Product";
 
 @Entity("category_product")
 export class CategoryProduct {
-    @PrimaryColumn()
+    @PrimaryColumn({ type:"varchar", length: 45 })
     id!: string;
     
-    @Column()
+    @Column({ type:"varchar", length: 40 })
     category_name!: string;
 
     @OneToMany(() => Products, (categoryproduct) => categoryproduct.category_product, { eager: true })
     products!: Products[];
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     company_id!: string;
 
     @ManyToOne(() => Companies)

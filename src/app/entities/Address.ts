@@ -14,23 +14,20 @@ export class Address {
     @OneToMany(type => Companies, address => Address)
     companies!: Companies[];
 
-    @Column()
+    @Column({ type:"varchar", length: 70 })
     street!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 40 })
     district!: string;
 
-    @Column()
+    @Column({ type:"char", length: 8 })
     zip_code!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 40})
     city!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 30 })
     state!: string;
-
-    @Column({default: 'Brasil'})
-    country!: string;
 
     @Column({ type:"float8", nullable: true })
     latitude!: number;

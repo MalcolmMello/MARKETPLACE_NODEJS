@@ -74,7 +74,7 @@ export class CreateAddressService {
         const matchedAddress = isAddressReal.uf === state && isAddressReal.localidade === city && isAddressReal.bairro === district && isAddressReal.logradouro === street;
 
         if(matchedAddress) {
-            const newAddress = addressRepository().create({ street, district, zip_code, city, state, country, longitude, latitude });
+            const newAddress = addressRepository().create({ street, district, zip_code, city, state, longitude, latitude });
         
             await addressRepository().save(newAddress);
 

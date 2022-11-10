@@ -1,49 +1,46 @@
-import { Entity, Column, PrimaryColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { Address } from "./Address";
-import { Categories } from "./Category";
 import { CategoryProduct } from "./CategoryProduct";
 import { Requests } from "./Request";
+import { Responsible } from "./Responsible";
 
 @Entity("company")
 export class Companies {
-    @PrimaryColumn()
+    @PrimaryColumn({ type:"varchar", length: 45 })
     id!: string;
     
-    @Column()
+    @Column({type: "varchar", length: 40})
     company_name!: string;
 
-    @Column()
+    @Column({type: "varchar", length: 60})
     email!: string;
 
-    @Column()
-    password!: string;
-
-    @Column()
+    @Column({type: "char", length: 15})
     phone_number!: string;
 
-    @Column()
+    @Column({ type: "char", length: 6 })
     address_number!: string;
 
-    @Column()
+    @Column({ type: "char", length: 14 })
     cnpj!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     addressId!: string;
+    
+    @Column({ type:"varchar", length: 45 })
+    responsible_id!: string;
 
     @Column({ nullable: true })
     description!: string;
 
-    @Column({ nullable: true })
-    main_service!: string;
-
-    @ManyToMany(type => Categories)
-    @JoinTable()
-    categories!: Categories[];
-
     @ManyToOne(() => Address)
     @JoinColumn({ name: "addressId" })
     address!: Address;
+
+    @ManyToOne(() => Responsible)
+    @JoinColumn({ name: "responsible_id" })
+    responsible!: Responsible; 
 
     @OneToMany(() => CategoryProduct, (categories_products) => categories_products.company, { eager: true })
     categories_products!: CategoryProduct[];
@@ -57,7 +54,7 @@ export class Companies {
     @Column({ nullable: true })
     cover!: string;
 
-    @Column({ type: "varchar", default: "Em Aprovação"})
+    @Column({ type: "char", length: 12, default: "Em Aprovação"})
     isApproved!: "Em Aprovação" | "Aprovado" | "Rejeitado" | "Suspenso";
 
     @CreateDateColumn()

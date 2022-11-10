@@ -3,7 +3,6 @@ import { Address } from "../entities/Address";
 import { Companies } from "../entities/Company";
 import { Products } from '../entities/Product';
 import { User } from "../entities/User";
-import { Categories } from "../entities/Category";
 import { CategoryProduct } from "../entities/CategoryProduct";
 import { Admin } from "../entities/Admin";
 import { Requests } from "../entities/Request";
@@ -25,10 +24,6 @@ export const companiesRepository = () => {
 
 export const productsRepository = () => {
     return AppDataSource.getRepository(Products);
-};
-
-export const categoriesRepository = () => {
-    return AppDataSource.getRepository(Categories);
 };
 
 export const productsCategoriesRepository = () => {

@@ -5,13 +5,13 @@ import { Companies } from "./Company";
 
 @Entity("company_product")
 export class Products {
-    @PrimaryColumn()
+    @PrimaryColumn({ type:"varchar", length: 45 })
     id!: string;
     
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     company_id!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     categoryProductId!: string;
 
     @ManyToOne(() => Companies)
@@ -21,7 +21,7 @@ export class Products {
     @ManyToOne(type => CategoryProduct, products => Products)
     category_product!: CategoryProduct;
 
-    @Column()
+    @Column({ type:"varchar", length: 40 })
     product_name!: string;
 
     @Column()

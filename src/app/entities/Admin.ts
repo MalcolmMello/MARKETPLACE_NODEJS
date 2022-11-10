@@ -6,16 +6,16 @@ export class Admin {
     @PrimaryColumn()
     id!: string;
     
-    @Column()
+    @Column({ type:"varchar", length: 60 })
     username!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 70 })
     email!: string;
 
     @Column()
     password!: string;
 
-    @Column()
+    @Column({ type:"char", length: 11 })
     phone_number!: string;
 
     @CreateDateColumn()

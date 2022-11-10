@@ -5,13 +5,13 @@ import { Requests } from "./Request";
 
 @Entity("request_product")
 export class RequestProducts {
-    @PrimaryColumn()
+    @PrimaryColumn({ type:"varchar", length: 45 })
     id!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     productId!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     requestId!: string;
 
     @Column()

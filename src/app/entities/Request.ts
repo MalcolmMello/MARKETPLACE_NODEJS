@@ -8,26 +8,26 @@ import { User } from "./User";
 
 @Entity("request")
 export class Requests {
-    @PrimaryColumn()
+    @PrimaryColumn({ type:"varchar", length: 45 })
     id!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     userId!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     company_id!: string;
 
-    @Column()
+    @Column({ type:"varchar", length: 45 })
     user_address_id!: string;
 
-    @Column({ type: "varchar"})
+    @Column({ type: "varchar", length: 45})
     status_id!: string;
 
     @ManyToOne(() => Status, { eager: true })
     @JoinColumn({ name: "status_id" })
     status!: Status; 
 
-    @Column()
+    @Column({ type:"char", length: 6 })
     address_number!: string;
 
     @Column({ type: "float8" })
