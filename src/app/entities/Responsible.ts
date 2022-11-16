@@ -8,7 +8,7 @@ export class Responsible {
     id!: string;
     
     @Column({type:"varchar", length: 60})
-    responsible_namne!: string;
+    responsible_name!: string;
 
     @Column({type: "varchar", length: 60})
     email!: string;
@@ -19,10 +19,10 @@ export class Responsible {
     @Column({type: "char", length: 15})
     phone_number!: string;
     
-    @Column({type: "char", length: 15})
+    @Column({type: "char", length: 15, unique: true})
     rg!: string;
 
-    @Column({type: "char", length: 11})
+    @Column({type: "char", length: 11, unique: true})
     cpf!: string;
 
     @OneToMany(() => Companies, (companies) => companies.responsible, { eager: true })

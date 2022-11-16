@@ -8,6 +8,7 @@ import { Admin } from "../entities/Admin";
 import { Requests } from "../entities/Request";
 import { RequestProducts } from "../entities/RequestProduct";
 import { Status } from "../entities/Status";
+import { Responsible } from "../entities/Responsible";
 
 
 export const userRepository = () => {
@@ -17,6 +18,11 @@ export const userRepository = () => {
 export const addressRepository = () => {
     return AppDataSource.getRepository(Address);
 };
+
+export const responsibleRepository = () => {
+    return AppDataSource.getRepository(Responsible);
+};
+
 
 export const companiesRepository = () => {
     return AppDataSource.getRepository(Companies);

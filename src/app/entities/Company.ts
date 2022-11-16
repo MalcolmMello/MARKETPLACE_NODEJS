@@ -22,7 +22,7 @@ export class Companies {
     @Column({ type: "char", length: 6 })
     address_number!: string;
 
-    @Column({ type: "char", length: 14 })
+    @Column({ type: "char", length: 14, unique: true })
     cnpj!: string;
 
     @Column({ type:"varchar", length: 45 })
@@ -56,6 +56,12 @@ export class Companies {
 
     @Column({ type: "char", length: 12, default: "Em Aprovação"})
     isApproved!: "Em Aprovação" | "Aprovado" | "Rejeitado" | "Suspenso";
+
+    @Column({ nullable: true })
+    stripeAccountId!: string;
+
+    @Column({default: false})
+    onboardingComplete!: boolean;
 
     @CreateDateColumn()
     created_at!: string;
