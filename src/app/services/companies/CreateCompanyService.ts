@@ -14,11 +14,7 @@ type CreateAccount = {
     company_phone_number: string,
     description: string,
     cnpj: string,
-    street: string,
-    district: string,
-    zip_code: string,
-    city: string,
-    state: string,
+    display_name: string,
     address_number: string,
     longitude: number,
     latitude: number
@@ -26,7 +22,7 @@ type CreateAccount = {
 
 
 export class CreateCompanyService {
-    async execute({ responsible_name, cpf, rg, responsible_email, responsible_password, responsible_phone_number, company_name, company_email, company_phone_number, description, cnpj, street, district, zip_code, city, state, address_number, longitude, latitude }: CreateAccount) {
+    async execute({ responsible_name, cpf, rg, responsible_email, responsible_password, responsible_phone_number, company_name, company_email, company_phone_number, description, cnpj, display_name, address_number, longitude, latitude }: CreateAccount) {
         const hasAllResponsibleData = responsible_name && cpf && rg && responsible_email && responsible_password;
         
         if(!hasAllResponsibleData) {
@@ -53,16 +49,16 @@ export class CreateCompanyService {
 
         const passwordHash = await hash(responsible_password, 8);
 
-        const hasAllAddressData = street && district && zip_code && city && state && longitude && latitude;
+        const hasAllAddressData = display_name && longitude && latitude;
 
         if(!hasAllAddressData) {
             return new Error("Missing company address's informations");
         };
 
-        let address = await addressRepository().findOneBy({ zip_code });
+        let address = await addressRepository().findOneBy({ display_name });
 
         if(address == null) {
-            const newAddress = addressRepository().create({ street, district, zip_code, city, state, longitude, latitude });    
+            const newAddress = addressRepository().create({ display_name });    
             await addressRepository().save(newAddress);
             address = newAddress
         };
@@ -71,7 +67,7 @@ export class CreateCompanyService {
             
         await companiesRepository().save(newResponsible);
             
-        const newCompany = companiesRepository().create({ company_name, email: company_email, phone_number: company_phone_number, address_number, cnpj, addressId: address.id, responsible: newResponsible});
+        const newCompany = companiesRepository().create({ company_name, email: company_email, phone_number: company_phone_number, address_number, cnpj, addressId: address.id, responsible: newResponsible, latitude, longitude});
 
         await companiesRepository().save(newCompany);
 
@@ -86,15 +82,11 @@ export class CreateCompanyService {
             company_email: newCompany.email,
             phone_number: newCompany.phone_number,
             address_number: newCompany.address_number,
-            street: address.street,
-            district: address.district,
-            zip_code: address.zip_code,
-            city: address.city,
-            state: address.state,
+            display_name,
+            token,
             cnpj: newCompany.cnpj,
             description: newCompany.description,
             addressId: newCompany.addressId,
-            token,
             isApproved: newCompany.isApproved
         };
 

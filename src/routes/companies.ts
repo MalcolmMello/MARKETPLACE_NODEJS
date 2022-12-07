@@ -20,6 +20,7 @@ import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
 import multer from "multer";
 import { GetPerfilDataController } from "../app/controllers/companies/GetPerfilDataController";
+import { StripeRefreshController } from "../app/controllers/companies/StripeRefreshController";
 
 const upload = multer({
     dest: './tmp',
@@ -34,6 +35,7 @@ const routes = Router();
 
 routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
 routes.post("/signin", AuthCompanyValidator.signin, new LoginCompanyController().handle);
+routes.post("/refresh_url", JwtAuthMiddleware, new StripeRefreshController().handle);
 
 routes.get("/address", JwtAuthMiddleware, new GetAddressController().handle);
 routes.put("/updateaddress", JwtAuthMiddleware, new UpdateAddressController().handle);

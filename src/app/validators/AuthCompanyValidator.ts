@@ -16,7 +16,7 @@ const AuthCompanyValidator = {
             },
             responsible_password: {
                 isStrongPassword: {
-                    options: { minLength: 5, minUppercase: 1, minLowercase: 1, minNumbers: 1, minSymbols: 1 }
+                    options: { minLength: 8, minUppercase: 1, minLowercase: 1, minNumbers: 1, minSymbols: 1 }
                 },
                 errorMessage: "Senha não é forte o suficiente."
             },

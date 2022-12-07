@@ -50,6 +50,12 @@ export class Requests {
     @OneToMany(() => RequestProducts, (requestProducts) => requestProducts.request, { eager: true })
     request_products!: RequestProducts[];
 
+    @Column({ type:"float8", nullable: true })
+    latitude!: number;
+
+    @Column({ type:"float8", nullable: true })
+    longitude!: number;
+
     @CreateDateColumn()
     created_at!: string;
 

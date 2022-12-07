@@ -63,6 +63,12 @@ export class Companies {
     @Column({default: false})
     onboardingComplete!: boolean;
 
+    @Column({ type:"float8", nullable: true })
+    latitude!: number;
+
+    @Column({ type:"float8", nullable: true })
+    longitude!: number;
+
     @CreateDateColumn()
     created_at!: string;
 

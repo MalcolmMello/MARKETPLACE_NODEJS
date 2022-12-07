@@ -26,6 +26,12 @@ export class User {
     @JoinTable()
     address!: Address[];
 
+    @Column({ type:"float8", nullable: true })
+    latitude!: number;
+
+    @Column({ type:"float8", nullable: true })
+    longitude!: number;
+
     @CreateDateColumn()
     created_at!: string;
 

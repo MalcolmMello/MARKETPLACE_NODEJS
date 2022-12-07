@@ -15,25 +15,7 @@ export class Address {
     companies!: Companies[];
 
     @Column({ type:"varchar", length: 70 })
-    street!: string;
-
-    @Column({ type:"varchar", length: 40 })
-    district!: string;
-
-    @Column({ type:"char", length: 8 })
-    zip_code!: string;
-
-    @Column({ type:"varchar", length: 40})
-    city!: string;
-
-    @Column({ type:"varchar", length: 30 })
-    state!: string;
-
-    @Column({ type:"float8", nullable: true })
-    latitude!: number;
-
-    @Column({ type:"float8", nullable: true })
-    longitude!: number;
+    display_name!: string;
 
     @CreateDateColumn()
     created_at!: string;
