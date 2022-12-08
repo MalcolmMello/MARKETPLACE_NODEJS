@@ -1,4 +1,6 @@
 import { Router } from "express";
+import Stripe from "stripe";
+import multer from "multer";
 import { CreateCompanyController } from "../app/controllers/companies/CreateCompanyController";
 import { LoginCompanyController } from "../app/controllers/companies/LoginCompanyController";
 import { GetAddressController } from "../app/controllers/companies/GetAddressController";
@@ -18,9 +20,14 @@ import { ChangeRequestStatusController } from "../app/controllers/companies/Chan
 import { UpdateCompanyDataController } from "../app/controllers/companies/UpdateCompanyDataController";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
-import multer from "multer";
 import { GetPerfilDataController } from "../app/controllers/companies/GetPerfilDataController";
 import { StripeRefreshController } from "../app/controllers/companies/StripeRefreshController";
+
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const stripe = new Stripe(process.env.STRIPE_KEY as string, {apiVersion: "2022-08-01"} );
 
 const upload = multer({
     dest: './tmp',
@@ -35,6 +42,14 @@ const routes = Router();
 
 routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
 routes.post("/signin", AuthCompanyValidator.signin, new LoginCompanyController().handle);
+routes.get("/secret", async (request, response) => {
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount: 10000,
+        currency: 'brl',
+        automatic_payment_methods: {enabled: true},
+    });
+    return response.json({ clientSecret: paymentIntent.client_secret });
+});
 routes.post("/refresh_url", JwtAuthMiddleware, new StripeRefreshController().handle);
 
 routes.get("/address", JwtAuthMiddleware, new GetAddressController().handle);

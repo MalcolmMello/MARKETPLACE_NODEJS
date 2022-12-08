@@ -7,6 +7,9 @@ import { MulterError } from 'multer';
 import adminRoutes from './routes/admin';
 import userRoutes from './routes/user';
 import companiesRoutes from './routes/companies';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 
 const app = express();
