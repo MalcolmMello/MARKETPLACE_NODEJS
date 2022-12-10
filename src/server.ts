@@ -7,6 +7,7 @@ import { MulterError } from 'multer';
 import adminRoutes from './routes/admin';
 import userRoutes from './routes/user';
 import companiesRoutes from './routes/companies';
+import webhookHandler from './routes/webhookHandler';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -23,6 +24,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use("/user", userRoutes);
 app.use("/companies", companiesRoutes);
 app.use("/admin", adminRoutes);
+
+app.use("/", webhookHandler)
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     res.status(400); //bad request

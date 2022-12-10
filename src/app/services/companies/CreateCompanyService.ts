@@ -35,7 +35,7 @@ export class CreateCompanyService {
             return new Error("Missing company's informations");
         };
 
-        const existResponsible = await companiesRepository().findOneBy({ cnpj });
+        const existResponsible = await responsibleRepository().findOneBy({ cpf });
 
         if(existResponsible) {
             return new Error("User already exists");
@@ -78,6 +78,8 @@ export class CreateCompanyService {
             responsible_id: newResponsible.id,
             responsible_name,
             responsible_phone_number,
+            responsible_email,
+            cpf,
             company_name: newCompany.company_name,
             company_email: newCompany.email,
             phone_number: newCompany.phone_number,

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from 'express-validator';
 import { CreateCompanyService } from "../../services/companies/CreateCompanyService";
-import { HandleCreateStripeExpress } from "../../stripe/HandleCreateStripeExpress";
+import { HandleCreateCustomer } from "../../stripe/HandleCreateCustomer";
 import CpnjValidator from "../../validators/CnpjValidator";
 import CpfValidator from "../../validators/CpfValidator";
 
@@ -36,14 +36,14 @@ export class CreateCompanyController {
             return response.status(400).json(result.message);
         };
 
-        const createStripeExpressController = new HandleCreateStripeExpress();
+        const createCustomer = new HandleCreateCustomer();
 
-        const newStripeAccount = await createStripeExpressController.handle({ responsible_id: result.responsible_id, company_id: result.company_id, company_name: result.company_name, company_email: result.company_email, company_phone_number: result.phone_number, description: result.description, display_name: result.display_name, address_number: result.address_number, cnpj: result.cnpj });
+        const customer = await createCustomer.handle({ company_name: result.company_name, responsible_name: result.responsible_name, responsible_email: result.responsible_email, address: result.display_name, responsible_phone_number: result.responsible_phone_number, company_phone_number: result.phone_number, description: result.description, cpf: result.cpf });
 
-        if(newStripeAccount instanceof Error) {
-            return response.status(400).json(newStripeAccount.message);
+        if(customer instanceof Error) {
+            return response.status(400).json(customer.message);
         };
 
-        return response.json(result.token).redirect(newStripeAccount);
+        return response.json({ token: result.token, customerId: customer  });
     }
 }
