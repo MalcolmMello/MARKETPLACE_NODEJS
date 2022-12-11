@@ -1,22 +1,16 @@
-import { Stripe } from 'stripe';
 import { companiesRepository } from '../repositories';
+import { stripe } from '../helpers/stripe';
+import { Request, Response } from 'express';
+import dotenv from 'dotenv';
 
-const stripe = new Stripe('sk_test_51Lz7Y3Jvzkzf4DAWuacq3NugEhmDBLqcQjWSRwPHIZsH1yVwLWnJqnmR3fBWlNqtYawiLw4m7bf15uEhbHUj3xZC00REYYqsvR', {apiVersion: "2022-08-01"} );
-
-type CompanyData = {
-    responsible_id: string,
-    company_id: string,
-    company_name?: string,
-    company_email?: string,
-    company_phone_number?: string,
-    description?: string,
-    cnpj?: string,
-    display_name?: string,
-    address_number?: string,
-}
+dotenv.config();
 
 export class HandleCreateStripeExpress {
-    async handle({ responsible_id, company_id, company_name, company_email, company_phone_number, description, cnpj, display_name, address_number }: CompanyData) {
+    async handle(request: Request, response: Response) {
+        const { company_id, company_name, company_email, company_phone_number, description, cnpj, display_name, address_number } = request.body;
+        
+        const responsible_id = request.userId;
+
         const company = await companiesRepository().findOneBy({ id: company_id, responsible_id });
 
         if(company == null) {
@@ -58,14 +52,16 @@ export class HandleCreateStripeExpress {
             
             const accountLink = await stripe.accountLinks.create({
                 account: accountId,
-                refresh_url: `${process.env.PUBLIC_DOMAIN}/companies/refresh_url`,
-                return_url: `${process.env.PUBLIC_DOMAIN}/companies/onboarded`,
+                refresh_url: `${process.env.PUBLIC_DOMAIN}/refresh_url`,
+                return_url: `${process.env.PUBLIC_DOMAIN}`,
                 type: 'account_onboarding'
             });
     
-            return accountLink.url;
-        } catch (error) {
-            return new Error(`Failed to create a Stripe account. More details about the error: ${error}`);
+            return response.redirect(accountLink.url);
+        } catch (err) {
+            const error = new Error(`Failed to create a Stripe account. More details about the error: ${err}`);
+
+            return response.json(error.message);
         }
     };
 }

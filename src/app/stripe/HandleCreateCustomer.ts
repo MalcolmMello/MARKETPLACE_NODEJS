@@ -1,6 +1,6 @@
-import { Stripe } from 'stripe';
 import { responsibleRepository } from '../repositories';
-const stripe = new Stripe('sk_test_51Lz7Y3Jvzkzf4DAWuacq3NugEhmDBLqcQjWSRwPHIZsH1yVwLWnJqnmR3fBWlNqtYawiLw4m7bf15uEhbHUj3xZC00REYYqsvR', {apiVersion: "2022-08-01"} );
+import { stripe } from '../helpers/stripe';
+
 
 type CustomerData = {
     responsible_name: string,

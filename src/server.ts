@@ -17,7 +17,13 @@ const app = express();
 
 
 app.use(cors());
-app.use(express.json());
+app.use((req, res, next) => {
+    if (req.originalUrl === '/webhook') {
+      next(); // Do nothing with the body because I need it in a raw state.
+    } else {
+      express.json()(req, res, next);  // ONLY do express.json() if the received request is NOT a WebHook from Stripe.
+    }
+});
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -25,7 +31,7 @@ app.use("/user", userRoutes);
 app.use("/companies", companiesRoutes);
 app.use("/admin", adminRoutes);
 
-app.use("/", webhookHandler)
+app.use("/webhook", webhookHandler)
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     res.status(400); //bad request

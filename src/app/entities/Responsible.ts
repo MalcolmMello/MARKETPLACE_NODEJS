@@ -16,6 +16,12 @@ export class Responsible {
     @Column({type: "varchar", length: 40, nullable: true})
     customer_id!: string;
 
+    @Column({type: "varchar", length: 40, nullable: true})
+    subscription_id!: string | null;
+
+    @Column({type: "varchar", length: 40, nullable: true})
+    subscription_status!: string;
+
     @Column()
     password!: string;
 
