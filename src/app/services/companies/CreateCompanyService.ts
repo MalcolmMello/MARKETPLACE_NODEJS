@@ -23,7 +23,7 @@ type CreateAccount = {
 
 export class CreateCompanyService {
     async execute({ responsible_name, cpf, rg, responsible_email, responsible_password, responsible_phone_number, company_name, company_email, company_phone_number, description, cnpj, display_name, address_number, longitude, latitude }: CreateAccount) {
-        const hasAllResponsibleData = responsible_name && cpf && rg && responsible_email && responsible_password;
+        const hasAllResponsibleData = responsible_name && cpf && rg && responsible_email && responsible_password && responsible_phone_number;
         
         if(!hasAllResponsibleData) {
             return new Error("Missing responsible's informations");
@@ -65,7 +65,7 @@ export class CreateCompanyService {
 
         const newResponsible = responsibleRepository().create({ responsible_name, email: responsible_email, password: passwordHash, phone_number: responsible_phone_number, rg, cpf });
             
-        await companiesRepository().save(newResponsible);
+        await responsibleRepository().save(newResponsible);
             
         const newCompany = companiesRepository().create({ company_name, email: company_email, phone_number: company_phone_number, address_number, cnpj, addressId: address.id, responsible: newResponsible, latitude, longitude});
 
@@ -80,6 +80,7 @@ export class CreateCompanyService {
             responsible_phone_number,
             responsible_email,
             cpf,
+            onboarding: newCompany.onboardingComplete,
             company_name: newCompany.company_name,
             company_email: newCompany.email,
             phone_number: newCompany.phone_number,

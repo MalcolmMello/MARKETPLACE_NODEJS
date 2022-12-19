@@ -19,11 +19,11 @@ import { ChangeRequestStatusController } from "../app/controllers/companies/Chan
 import { UpdateCompanyDataController } from "../app/controllers/companies/UpdateCompanyDataController";
 import { GetPerfilDataController } from "../app/controllers/companies/GetPerfilDataController";
 import { StripeRefreshController } from "../app/controllers/companies/StripeRefreshController";
-import { HandleCreateSubscription } from "../app/stripe/HandleCreateSubscription";
 import { HandleCreateStripeExpress } from "../app/stripe/HandleCreateStripeExpress";
 import { HandleOnboardedStripe } from "../app/stripe/HandleOnboardedStripe";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
+import { HandleRetrieveSubscription } from "../app/stripe/HandleRetrieveSubscription";
 
 
 const upload = multer({
@@ -37,11 +37,11 @@ const upload = multer({
 
 const routes = Router();
 
-routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
 routes.post("/signin", AuthCompanyValidator.signin, new LoginCompanyController().handle);
-routes.post("/create-subscription", JwtAuthMiddleware, new HandleCreateSubscription().handle);
+routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
 routes.post("/create-stripe-express", JwtAuthMiddleware, new HandleCreateStripeExpress().handle);
 routes.get("/onboarded", JwtAuthMiddleware, new HandleOnboardedStripe().handle);
+routes.get("/subscription-status", JwtAuthMiddleware, new HandleRetrieveSubscription().handle);
 
 routes.post("/refresh_url", JwtAuthMiddleware, new StripeRefreshController().handle);
 

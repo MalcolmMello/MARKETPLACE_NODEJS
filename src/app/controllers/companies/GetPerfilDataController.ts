@@ -3,11 +3,12 @@ import { GetPerfilDataService } from "../../services/companies/GetPerfilDataServ
 
 export class GetPerfilDataController {
     async handle(request: Request, response: Response) {
-        const companyId = request.userId;
+        const { userId } = request;
+        const { companyId } = request.body;
 
         const getPerfilDataService = new GetPerfilDataService();
 
-        const result = await getPerfilDataService.execute(companyId);
+        const result = await getPerfilDataService.execute({ userId, companyId });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

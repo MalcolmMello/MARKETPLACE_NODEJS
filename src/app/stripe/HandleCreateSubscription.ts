@@ -1,11 +1,14 @@
-import { Request, Response } from 'express';
 import { stripe } from '../helpers/stripe';
 import { responsibleRepository } from '../repositories';
 
+type CreateSubscription = {
+  customerId: string,
+  priceId: string,
+  responsibleId: string
+}
+
 export class HandleCreateSubscription {
-    async handle(request: Request, response: Response) {
-        const { customerId, priceId } = request.body;
-        
+    async handle({ responsibleId, customerId, priceId }: CreateSubscription) {
         try {
 
             const subscription = await stripe.subscriptions.create({
@@ -16,9 +19,10 @@ export class HandleCreateSubscription {
               payment_behavior: 'default_incomplete',
               payment_settings: { save_default_payment_method: 'on_subscription' },
               expand: ['latest_invoice.payment_intent'],
+              collection_method: "charge_automatically"
             });
 
-            const existResponsible = await responsibleRepository().findOneBy({ customer_id: customerId });
+            const existResponsible = await responsibleRepository().findOneBy({ id: responsibleId, customer_id: customerId });
 
             if(existResponsible == null) {
                 return new Error("Failed to find the company's responsible.");
@@ -29,11 +33,14 @@ export class HandleCreateSubscription {
             existResponsible.subscription_status = subscription.status;
 
             await responsibleRepository().save(existResponsible);
+
+            const result = { subscriptionId: subscription.id, clientSecret: subscription.latest_invoice?.payment_intent?.client_secret, status: subscription.status }
         
-            return response.json({ subscriptionId: subscription.id, clientSecret: subscription.latest_invoice?.payment_intent?.client_secret });
-          } catch (error) {
-            if(error instanceof Error) {
-                return response.status(400).json(error.message);
+            return result;
+          } catch (err) {
+            if(err instanceof Error) {
+              const error = err;
+              return error;
             };
           }
         };

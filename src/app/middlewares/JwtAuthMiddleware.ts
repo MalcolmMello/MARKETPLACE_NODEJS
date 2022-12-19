@@ -19,7 +19,7 @@ const JwtAuthMiddleware = async (request: Request, response: Response, next: Nex
             const decodedData = jwt.verify(token, 'teste');
 
             if(typeof decodedData !== 'object' || !decodedData.id) {
-                return response.status(400).json({ message: "Invalid Token" });
+                return response.status(401).json({ message: "Invalid Token" });
             };
 
             request.userId = decodedData.id;
@@ -29,16 +29,16 @@ const JwtAuthMiddleware = async (request: Request, response: Response, next: Nex
             next();
         } catch (error) {
             if(error instanceof Error) {
-                return response.status(400).json({ message: error.message });     
+                return response.status(401).json({ message: error.message });     
             } else {
-                return response.status(400).json({ message: "Something went wrong" });
+                return response.status(401).json({ message: "Something went wrong" });
             }
         }
     } catch (error) {
         if(error instanceof Error) {
-            return response.json({message: error.message}).end();
+            return response.status(401).json({message: error.message}).end();
         } else {
-            return response.json({ message: "Something went wrong" }).end();
+            return response.status(401).json({ message: "Something went wrong" }).end();
         };
     }
 }
