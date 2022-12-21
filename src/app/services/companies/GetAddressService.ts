@@ -1,18 +1,19 @@
 import { companiesRepository, addressRepository } from "../../repositories";
 
 type GetAddress = {
-    companyId: string
+    companyId: string,
+    responsibleId: string
 };
 
 export class GetAddressService {
-    async execute({companyId}: GetAddress) {
+    async execute({ companyId, responsibleId}: GetAddress) {
         const hasId = companyId;
         
         if(!hasId) {
             return new Error("Missing company id");
         };
 
-        const company = await companiesRepository().findOneBy({ id: companyId });
+        const company = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId });
 
         if(company == null) {
             return new Error("Company doesn't exists");

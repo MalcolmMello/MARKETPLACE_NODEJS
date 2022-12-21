@@ -1,13 +1,18 @@
-import { requestRepository, statusRepository } from "../../repositories";
+import { companiesRepository, requestRepository, statusRepository } from "../../repositories";
 
 type OneRequestService = {
+    responsibleId: string,
     companyId: string,
     requestId: string,
     status_name: "Pronto para retirada" | "Em preparo" | "Concluído" | "Cancelado pela empresa" | "Cancelado pelo cliente" | "Em aberto" | "Saiu para entrega";
 }
 
 export class ChangeRequestStatusService {
-    async execute({ companyId, requestId, status_name }: OneRequestService) {
+    async execute({ responsibleId, companyId, requestId, status_name }: OneRequestService) {
+        if(!responsibleId) {
+            return new Error("Invalid responsible's id.");
+        };
+        
         if(!companyId) {
             return new Error("Invalid company's id.");
         };
@@ -15,6 +20,12 @@ export class ChangeRequestStatusService {
         if(!requestId) {
             return new Error("Invalid request's id.");
         };
+
+        const isResponsibleCompany = await companiesRepository().findOneBy({ responsible_id: responsibleId, id: companyId });
+
+        if(isResponsibleCompany == null) {
+            return new Error("Company doesn't belong to this responsible.");
+        }
 
         const request = await requestRepository().findOneBy({ id: requestId, company_id: companyId });
 

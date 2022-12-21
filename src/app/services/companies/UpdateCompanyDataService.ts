@@ -10,11 +10,12 @@ type UpdateCompanyData = {
         logo: Express.Multer.File[],
         cover: Express.Multer.File[]
     },
-    companyId: string
+    companyId: string,
+    responsibleId: string
 };
 
 export class UpdateCompanyDataService {
-    async execute({ new_name, description, phone_number, files, companyId }: UpdateCompanyData) {
+    async execute({ new_name, description, phone_number, files, companyId, responsibleId }: UpdateCompanyData) {
         if(!companyId) {
             return new Error("Missing company's id.");
         };
@@ -25,7 +26,7 @@ export class UpdateCompanyDataService {
             return new Error("There's no data to change");
         };
 
-        const existCompany = await companiesRepository().findOneBy({ id: companyId });
+        const existCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId });
 
         if(existCompany == null) {
             return new Error("No companies with that id.");

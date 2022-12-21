@@ -13,7 +13,6 @@ export class CreateCompanyController {
     async handle(request: Request, response: Response) {
         const { responsible_name, cpf, rg, email, password, phone_number, company_name, company_email, company_phone_number, description, cnpj, display_name, address_number, longitude, latitude } = request.body;
 
-        console.log(responsible_name, cpf, rg, email, password, phone_number, company_name, company_email, company_phone_number, description, cnpj, display_name, address_number, longitude, latitude)
         const errors = validationResult(request.body);
 
         if(!errors.isEmpty()) {
@@ -56,6 +55,6 @@ export class CreateCompanyController {
             return response.status(400).json(subscription.message);
         };
 
-        return response.json({ token: result.token, clientSecret: subscription?.clientSecret, onboarding: result.onboarding, subscription_status: subscription?.status  });
+        return response.json({ token: result.token, clientSecret: subscription?.clientSecret, onboarding: result.onboarding, subscription_status: subscription?.status, responsible_companies: result.responsible_companies  });
     }
 }

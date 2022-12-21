@@ -2,11 +2,12 @@ import { addressRepository, companiesRepository, requestRepository, userReposito
 
 type OneRequestService = {
     companyId: string,
-    requestId: string
+    requestId: string,
+    responsibleId: string
 };
 
 export class GetOneRequestService {
-    async execute({ companyId, requestId }: OneRequestService) {
+    async execute({ companyId, requestId, responsibleId }: OneRequestService) {
         if(!companyId) {
             return new Error("Invalid company's id.");
         };
@@ -15,6 +16,12 @@ export class GetOneRequestService {
             return new Error("Invalid request's id.");
         };
 
+        const isResponsibleCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId })
+
+        if(isResponsibleCompany == null) {
+            return new Error("Company doesn't belong to this responsible.");
+        }
+        
         const request = await requestRepository().findOneBy({ id: requestId, company_id: companyId });
 
         if(request == null) {

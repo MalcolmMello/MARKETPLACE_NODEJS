@@ -67,9 +67,16 @@ export class CreateCompanyService {
             
         await responsibleRepository().save(newResponsible);
             
-        const newCompany = companiesRepository().create({ company_name, email: company_email, phone_number: company_phone_number, address_number, cnpj, addressId: address.id, responsible: newResponsible, latitude, longitude});
+        const newCompany = companiesRepository().create({ company_name, email: company_email, phone_number: company_phone_number, address_number, cnpj, addressId: address.id, responsible: newResponsible, latitude, longitude, isMainCompany: true});
 
         await companiesRepository().save(newCompany);
+
+        const existResponsibleCompanies = await companiesRepository().findBy({responsible_id: newResponsible.id});
+
+        const responsible_companies = [{
+            id: existResponsibleCompanies[0].id,
+            isMainCompany: existResponsibleCompanies[0].isMainCompany
+        }]; 
 
         const token = jwt.sign({ email: newResponsible.email, id: newResponsible.id }, 'teste', { expiresIn: "1h" });
 
@@ -79,6 +86,7 @@ export class CreateCompanyService {
             responsible_name,
             responsible_phone_number,
             responsible_email,
+            responsible_companies,
             cpf,
             onboarding: newCompany.onboardingComplete,
             company_name: newCompany.company_name,

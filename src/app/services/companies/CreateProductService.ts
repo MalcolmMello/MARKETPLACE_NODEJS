@@ -1,9 +1,9 @@
-import { Express } from "express";
 import { unlink } from "fs/promises";
 import sharp from "sharp";
 import { companiesRepository, productsCategoriesRepository, productsRepository } from "../../repositories";
 
 type CreateCategoryProduct = {
+    responsibleId: string,
     companyId: string,
     categoryProductId: string,
     product_name: string,
@@ -13,13 +13,13 @@ type CreateCategoryProduct = {
 };
 
 export class CreateProductService {
-    async execute({ companyId, categoryProductId, product_name, description, front_cover, price }: CreateCategoryProduct) {
+    async execute({ responsibleId, companyId, categoryProductId, product_name, description, front_cover, price }: CreateCategoryProduct) {
         const hasAllData = companyId && categoryProductId && product_name && description && price;
 
         if(!hasAllData) {
             return new Error("Missing product information");
         }
-        const existCompany = await companiesRepository().findOneBy({ id: companyId });
+        const existCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId});
 
         if(!existCompany) {
             return new Error("Company doesn't exists");

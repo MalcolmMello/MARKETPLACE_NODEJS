@@ -1,9 +1,10 @@
 import { unlink } from "fs/promises";
 import sharp from "sharp";
-import { productsCategoriesRepository, productsRepository } from "../../repositories";
+import { companiesRepository, productsCategoriesRepository, productsRepository } from "../../repositories";
 
 type UpdateProduct = {
     companyId: string;
+    responsibleId: string,
     categoryProductId: string,
     productId: string,
     product_name: string,
@@ -13,7 +14,7 @@ type UpdateProduct = {
 };
 
 export class UpdateProductService {
-    async execute({ companyId , productId, categoryProductId, product_name, description, front_cover, price }: UpdateProduct) {
+    async execute({ responsibleId, companyId , productId, categoryProductId, product_name, description, front_cover, price }: UpdateProduct) {
         const hasProductId = productId;
 
         if(!hasProductId) {
@@ -24,6 +25,12 @@ export class UpdateProductService {
 
         if(!hasAnyData) {
             return new Error("There is no data to change.");
+        };
+
+        const existCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId });
+
+        if(existCompany == null) {
+            return new Error("No companies with that id.");
         };
 
         if(categoryProductId) {

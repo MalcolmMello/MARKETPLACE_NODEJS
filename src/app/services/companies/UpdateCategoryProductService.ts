@@ -1,13 +1,14 @@
 import { companiesRepository, productsCategoriesRepository } from "../../repositories";
 
 type UpdateCategoryProduct = {
+    responsibleId: string,
     categoryId: string,
     companyId: string,
     newCategoryName: string
 };
 
 export class UpdateCategoryProductService {
-    async execute({ categoryId, companyId, newCategoryName }: UpdateCategoryProduct) {
+    async execute({ categoryId, companyId, newCategoryName, responsibleId }: UpdateCategoryProduct) {
         
         if(!categoryId) {
             return new Error("Category id wasn't sent.")
@@ -17,7 +18,7 @@ export class UpdateCategoryProductService {
             return new Error("Category name wasn't sent.")
         };
 
-        const existCompany = await companiesRepository().findOneBy({ id: companyId });
+        const existCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId });
 
         if(!existCompany) {
             return new Error("Company doesn't exists");

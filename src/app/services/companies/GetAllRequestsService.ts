@@ -1,14 +1,21 @@
-import { addressRepository, requestRepository, userRepository } from "../../repositories";
+import { addressRepository, companiesRepository, requestRepository, userRepository } from "../../repositories";
 
 type AllRequestsService = {
-    companyId: string
+    companyId: string,
+    responsibleId: string
 };
 
 export class GetAllRequestsService {
-    async execute({ companyId }: AllRequestsService) {
+    async execute({ companyId, responsibleId }: AllRequestsService) {
         if(!companyId) {
             return new Error("Invalid user's id.");
         };
+
+        const isResponsibleCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId,  });
+
+        if(isResponsibleCompany == null) {
+            return new Error("Company doesn't belong to this responsible.");
+        }
 
         const requests = await requestRepository().findBy({ company_id: companyId });
 

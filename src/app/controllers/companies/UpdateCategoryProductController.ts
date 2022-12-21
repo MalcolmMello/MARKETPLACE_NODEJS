@@ -3,13 +3,13 @@ import { UpdateCategoryProductService } from "../../services/companies/UpdateCat
 
 export class UpdateCategoryProductController {
     async handle(request: Request, response: Response) {
-        const { new_category_name } = request.body;
+        const { new_category_name, companyId } = request.body;
         const { categoryId } = request.params;
-        const companyId = request.userId;
+        const responsibleId = request.userId;
 
         const updateCategoryProductService = new UpdateCategoryProductService();
 
-        const result = await updateCategoryProductService.execute({ categoryId, companyId, newCategoryName: new_category_name });
+        const result = await updateCategoryProductService.execute({ responsibleId, categoryId, companyId, newCategoryName: new_category_name });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

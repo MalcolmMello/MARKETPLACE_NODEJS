@@ -1,18 +1,19 @@
 import { companiesRepository, productsCategoriesRepository, productsRepository } from "../../repositories";
 
 type DeleteCategoryProduct = {
+    responsibleId: string,
     categoryId: string,
     companyId: string
 };
 
 export class DeleteCategoryProductService {
-    async execute({ categoryId, companyId }: DeleteCategoryProduct) {
+    async execute({ responsibleId, categoryId, companyId }: DeleteCategoryProduct) {
         
         if(!categoryId) {
             return new Error("Category id wasn't sent.")
         };
 
-        const existCompany = await companiesRepository().findOneBy({ id: companyId });
+        const existCompany = await companiesRepository().findOneBy({ id: companyId , responsible_id: responsibleId});
 
         if(!existCompany) {
             return new Error("Company doesn't exists");

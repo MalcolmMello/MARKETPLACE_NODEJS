@@ -54,6 +54,9 @@ export class Companies {
     @Column({ nullable: true })
     cover!: string;
 
+    @Column()
+    isMainCompany!: boolean;
+
     @Column({ type: "char", length: 12, default: "Em Aprovação"})
     isApproved!: "Em Aprovação" | "Aprovado" | "Rejeitado" | "Suspenso";
 

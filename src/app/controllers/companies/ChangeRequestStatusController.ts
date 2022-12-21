@@ -4,11 +4,11 @@ import { ChangeRequestStatusService } from "../../services/companies/ChangeReque
 export class ChangeRequestStatusController {
     async handle(request: Request, response: Response) {
         const { requestId } = request.params;
-        const { status_name } = request.body; 
-        const companyId = request.userId;
+        const { status_name, companyId } = request.body; 
+        const responsibleId = request.userId;
         const deliveredOneRequestService = new ChangeRequestStatusService();
 
-        const result = await deliveredOneRequestService.execute({ companyId, requestId, status_name });
+        const result = await deliveredOneRequestService.execute({ responsibleId, companyId, requestId, status_name });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

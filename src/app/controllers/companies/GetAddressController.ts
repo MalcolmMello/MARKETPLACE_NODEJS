@@ -3,10 +3,11 @@ import { GetAddressService } from "../../services/companies/GetAddressService";
 
 export class GetAddressController {
     async handle(request: Request, response: Response) {
-        const companyId = request.userId;
+        const { companyId } = request.params
+        const responsibleId = request.userId;
         const getAddressService = new GetAddressService();
 
-        const result = await getAddressService.execute({companyId});
+        const result = await getAddressService.execute({ companyId, responsibleId });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

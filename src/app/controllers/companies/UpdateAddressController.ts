@@ -3,8 +3,8 @@ import { UpdateAddressService } from "../../services/companies/UpdateAddressServ
 
 export class UpdateAddressController {
     async handle(request: Request, response: Response) {
-        const { street, district, zip_code, city, state, country, address_number, longitude, latitude } = request.body;
-        const companyId = request.userId;
+        const { street, district, zip_code, city, state, country, address_number, longitude, latitude, companyId } = request.body;
+        const responsibleId = request.userId;
         const updateAddressService = new UpdateAddressService();
 
         const result = await updateAddressService.execute({companyId, street, district, zip_code, city, state, country, address_number, longitude, latitude});

@@ -3,11 +3,11 @@ import { GetOneRequestService } from "../../services/companies/GetOneRequestServ
 
 export class GetOneRequestController {
     async handle(request: Request, response: Response) {
-        const { requestId } = request.params; 
-        const companyId = request.userId;
+        const { requestId, companyId } = request.params; 
+        const responsibleId = request.userId;
         const getOneRequestService = new GetOneRequestService();
 
-        const result = await getOneRequestService.execute({ companyId, requestId });
+        const result = await getOneRequestService.execute({ companyId, requestId, responsibleId });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

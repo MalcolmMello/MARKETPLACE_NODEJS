@@ -3,10 +3,11 @@ import { GetAllRequestsService } from "../../services/companies/GetAllRequestsSe
 
 export class GetAllRequestsController {
     async handle(request: Request, response: Response) {
-        const companyId = request.userId;
+        const { companyId } = request.params;
+        const responsibleId = request.userId;
         const getAllRequestsService = new GetAllRequestsService();
 
-        const result = await getAllRequestsService.execute({ companyId });
+        const result = await getAllRequestsService.execute({ companyId, responsibleId });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

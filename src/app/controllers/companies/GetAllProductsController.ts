@@ -3,11 +3,12 @@ import { GetAllProductsService } from "../../services/companies/GetAllProductsSe
 
 export class GetAllProductsController {
     async handle(request: Request, response: Response) {
-        const companyId = request.userId;
+        const { companyId } = request.params;
+        const responsibleId = request.userId;
 
         const getAllProductsService = new GetAllProductsService();
 
-        const result = await getAllProductsService.execute(companyId);
+        const result = await getAllProductsService.execute({companyId, responsibleId});
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

@@ -3,16 +3,18 @@ import { UpdateProductService } from "../../services/companies/UpdateProductServ
 
 export class UpdateProductController {
     async handle(request: Request, response: Response) {
-        const { categoryProductId, product_name, description, price } = request.body;
+        const { categoryProductId, product_name, description, price, companyId } = request.body;
         const { productId } = request.params;
-        const companyId = request.userId;
+        
+        const responsibleId = request.userId;
+
         const front_cover = request.file;
 
         const priceToFloat = Number(price);
 
         const updateProductService = new UpdateProductService();
 
-        const result = await updateProductService.execute({ companyId, productId, categoryProductId, product_name, description, front_cover, price: priceToFloat });
+        const result = await updateProductService.execute({ responsibleId, companyId, productId, categoryProductId, product_name, description, front_cover, price: priceToFloat });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

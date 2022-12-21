@@ -18,12 +18,12 @@ import { GetOneRequestController } from "../app/controllers/companies/GetOneRequ
 import { ChangeRequestStatusController } from "../app/controllers/companies/ChangeRequestStatusController";
 import { UpdateCompanyDataController } from "../app/controllers/companies/UpdateCompanyDataController";
 import { GetPerfilDataController } from "../app/controllers/companies/GetPerfilDataController";
-import { StripeRefreshController } from "../app/controllers/companies/StripeRefreshController";
 import { HandleCreateStripeExpress } from "../app/stripe/HandleCreateStripeExpress";
 import { HandleOnboardedStripe } from "../app/stripe/HandleOnboardedStripe";
 import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
 import { HandleRetrieveSubscription } from "../app/stripe/HandleRetrieveSubscription";
+import { CreateNewSubscriptionController } from "../app/controllers/companies/CreateNewSubscriptionController";
 
 
 const upload = multer({
@@ -42,16 +42,15 @@ routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController(
 routes.post("/create-stripe-express", JwtAuthMiddleware, new HandleCreateStripeExpress().handle);
 routes.get("/onboarded", JwtAuthMiddleware, new HandleOnboardedStripe().handle);
 routes.get("/subscription-status", JwtAuthMiddleware, new HandleRetrieveSubscription().handle);
+routes.post("/subscription-renew", JwtAuthMiddleware, new CreateNewSubscriptionController().handle);
 
-routes.post("/refresh_url", JwtAuthMiddleware, new StripeRefreshController().handle);
-
-routes.get("/address", JwtAuthMiddleware, new GetAddressController().handle);
+routes.get("/:companyId/address", JwtAuthMiddleware, new GetAddressController().handle);
 routes.put("/updateaddress", JwtAuthMiddleware, new UpdateAddressController().handle);
 
 routes.post("/category", JwtAuthMiddleware, new CreateCategoryProductController().handle);
 routes.put("/category/:categoryId", JwtAuthMiddleware, new UpdateCategoryProductController().handle);
 routes.delete("/category/:categoryId", JwtAuthMiddleware, new DeleteCategoryProductController().handle);
-routes.get("/category", JwtAuthMiddleware, new GetCategoryProductController().handle);
+routes.get("/:companyId/category", JwtAuthMiddleware, new GetCategoryProductController().handle);
 
 routes.post("/product", JwtAuthMiddleware, upload.single('front_cover'), new CreateProductController().handle);
 routes.put("/product/:productId", JwtAuthMiddleware, upload.single('front_cover'), new UpdateProductController().handle);
@@ -59,11 +58,11 @@ routes.delete("/product/:productId", JwtAuthMiddleware, new DeleteProductControl
 routes.get("/product", JwtAuthMiddleware, new GetAllProductsController().handle);
 routes.get("/product/:productId", JwtAuthMiddleware, new GetOneProductController().handle);
 
-routes.get("/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
+routes.get("/:companyId/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
 routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
 routes.put("/changerequeststatus/:requestId", JwtAuthMiddleware, new ChangeRequestStatusController().handle);
 
-routes.get("/perfil", JwtAuthMiddleware, new GetPerfilDataController().handle);
+routes.get("/:companyId/perfil", JwtAuthMiddleware, new GetPerfilDataController().handle);
 routes.post("/perfil", JwtAuthMiddleware, upload.fields([
     {name: 'logo', maxCount: 1},
     {name: 'cover', maxCount: 1}

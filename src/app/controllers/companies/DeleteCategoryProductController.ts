@@ -3,12 +3,12 @@ import { DeleteCategoryProductService } from '../../services/companies/DeleteCat
 
 export class DeleteCategoryProductController {
     async handle(request: Request, response: Response) {
-        const { categoryId } = request.params;
-        const companyId = request.userId;
+        const { categoryId, companyId } = request.params;
+        const responsibleId = request.userId;
 
         const deleteCategoryProductService = new DeleteCategoryProductService();
         
-        const result = await deleteCategoryProductService.execute({ categoryId, companyId });
+        const result = await deleteCategoryProductService.execute({ responsibleId, categoryId, companyId });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

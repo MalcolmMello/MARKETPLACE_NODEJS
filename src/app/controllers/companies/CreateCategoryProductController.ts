@@ -3,12 +3,12 @@ import { CreateCategoryProductService } from "../../services/companies/CreateCat
 
 export class CreateCategoryProductController {
     async handle(request: Request, response: Response) {
-        const { category } = request.body;
-        const companyId = request.userId;
+        const { category, companyId } = request.body;
+        const responsibleId = request.userId;
 
         const createCategoryProductService = new CreateCategoryProductService();
 
-        const result = await createCategoryProductService.execute({ category, companyId });
+        const result = await createCategoryProductService.execute({ responsibleId, category, companyId });
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);

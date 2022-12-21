@@ -1,14 +1,19 @@
 import { companiesRepository, productsRepository } from "../../repositories";
 
+type GetProducts = {
+    responsibleId: string
+    companyId: string
+};
+
 export class GetAllProductsService {
-    async execute(companyId: string) {
+    async execute({ responsibleId, companyId }: GetProducts) {
         const hasCompanyId = companyId;
 
         if(!hasCompanyId) {
             return new Error("Company id is missing");
         };
 
-        const existCompany = await companiesRepository().findOneBy({ id: companyId });
+        const existCompany = await companiesRepository().findOneBy({ id: companyId, responsible_id: responsibleId });
 
         if(existCompany == null) {
             return new Error("Company doesn't exists.");
