@@ -28,7 +28,7 @@ routes.post("/", bodyParser.raw({ type: "application/json" }), async (req, res) 
     }
     
     const dataObject: any = event.data.object;
-
+    
     switch (event.type) {
         case 'invoice.paid':
             const responsible = await responsibleRepository().findOneBy({ customer_id: dataObject.customer });

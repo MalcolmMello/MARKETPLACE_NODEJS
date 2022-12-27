@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { responsibleRepository } from "../../repositories";
 import { HandleCreateSubscription } from "../../stripe/HandleCreateSubscription";
 
-const priceId = 'price_1M17nWJvzkzf4DAW3HTLZQPW';
+const priceId = 'process.env.STRIPE_PRICE_ID';
 
 
 export class CreateNewSubscriptionController {

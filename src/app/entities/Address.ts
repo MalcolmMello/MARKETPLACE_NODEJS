@@ -14,7 +14,7 @@ export class Address {
     @OneToMany(type => Companies, address => Address)
     companies!: Companies[];
 
-    @Column({ type:"varchar", length: 70 })
+    @Column({ type:"varchar" })
     display_name!: string;
 
     @CreateDateColumn()
