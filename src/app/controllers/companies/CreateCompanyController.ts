@@ -6,7 +6,7 @@ import { HandleCreateSubscription } from "../../stripe/HandleCreateSubscription"
 import CpnjValidator from "../../validators/CnpjValidator";
 import CpfValidator from "../../validators/CpfValidator";
 
-const priceId = 'process.env.STRIPE_PRICE_ID';
+const priceId = process.env.STRIPE_PRICE_ID;
 
 
 export class CreateCompanyController {
