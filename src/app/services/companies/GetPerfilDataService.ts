@@ -32,11 +32,39 @@ export class GetPerfilDataService {
             return new Error("Company doesn't exists");
         };
 
+        if(existCompany.stripeAccountId === null) {
+            existCompany.onboardingComplete = false;
+
+            await companiesRepository().save(existCompany);
+        } else {
+            try {
+                const account = await stripe.accounts.retrieve(existCompany.stripeAccountId);
+                
+                if(account.details_submitted) {
+                    existCompany.onboardingComplete = true;
+    
+                    await companiesRepository().save(existCompany);
+    
+                } else {
+                    existCompany.onboardingComplete = false;
+    
+                    await companiesRepository().save(existCompany);
+                }
+                
+            } catch (err) {
+                const error = new Error(`Failed to retrieve Stripe account information. More details about the error: ${err}`);
+            }
+        }
+
         const result = {
+            company_id: existCompany.id,
             company_name: existCompany.company_name,
+            company_email: existCompany.email,
             description: existCompany.description,
             phone_number: existCompany.phone_number,
+            cnpj: existCompany.cnpj,
             subscription_status: existResponsible.subscription_status,
+            onboarding: existCompany.onboardingComplete,
             logo: existCompany.logo != null ? `http://localhost:5000/media/${existCompany.logo}.jpg` : existCompany.logo,
             cover: existCompany.cover != null ? `http://localhost:5000/media/${existCompany.cover}.jpg` : existCompany.cover
         };

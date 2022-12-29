@@ -24,7 +24,7 @@ import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
 import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
 import { HandleRetrieveSubscription } from "../app/stripe/HandleRetrieveSubscription";
 import { CreateNewSubscriptionController } from "../app/controllers/companies/CreateNewSubscriptionController";
-
+import { GetResponsibleDataController } from "../app/controllers/companies/GetResponsibleDataController";
 
 const upload = multer({
     dest: './tmp',
@@ -41,6 +41,8 @@ routes.post("/signin", AuthCompanyValidator.signin, new LoginCompanyController()
 routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
 routes.post("/create-stripe-express", JwtAuthMiddleware, new HandleCreateStripeExpress().handle);
 routes.get("/onboarded", JwtAuthMiddleware, new HandleOnboardedStripe().handle);
+
+routes.get("/responsible-data", JwtAuthMiddleware, new GetResponsibleDataController().handle);
 routes.get("/subscription-status", JwtAuthMiddleware, new HandleRetrieveSubscription().handle);
 routes.post("/subscription-renew", JwtAuthMiddleware, new CreateNewSubscriptionController().handle);
 

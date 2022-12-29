@@ -4,7 +4,7 @@ import { GetPerfilDataService } from "../../services/companies/GetPerfilDataServ
 export class GetPerfilDataController {
     async handle(request: Request, response: Response) {
         const { userId } = request;
-        const { companyId } = request.body;
+        const { companyId } = request.params;
 
         const getPerfilDataService = new GetPerfilDataService();
 
