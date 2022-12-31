@@ -1,5 +1,7 @@
-import multer from "multer";
 import { Router } from "express";
+import multer from "multer";
+import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
+import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
 import { CreateCompanyController } from "../app/controllers/companies/CreateCompanyController";
 import { LoginCompanyController } from "../app/controllers/companies/LoginCompanyController";
 import { GetAddressController } from "../app/controllers/companies/GetAddressController";
@@ -20,11 +22,11 @@ import { UpdateCompanyDataController } from "../app/controllers/companies/Update
 import { GetPerfilDataController } from "../app/controllers/companies/GetPerfilDataController";
 import { HandleCreateStripeExpress } from "../app/stripe/HandleCreateStripeExpress";
 import { HandleOnboardedStripe } from "../app/stripe/HandleOnboardedStripe";
-import JwtAuthMiddleware from "../app/middlewares/JwtAuthMiddleware";
-import AuthCompanyValidator from "../app/validators/AuthCompanyValidator";
 import { HandleRetrieveSubscription } from "../app/stripe/HandleRetrieveSubscription";
 import { CreateNewSubscriptionController } from "../app/controllers/companies/CreateNewSubscriptionController";
 import { GetResponsibleDataController } from "../app/controllers/companies/GetResponsibleDataController";
+import { HandleGetSubscriptionData } from "../app/stripe/HandleGetSubscriptionData";
+import { HandleCancelSubscription } from "../app/stripe/HandleCancelSubscription";
 
 const upload = multer({
     dest: './tmp',
@@ -39,12 +41,15 @@ const routes = Router();
 
 routes.post("/signin", AuthCompanyValidator.signin, new LoginCompanyController().handle);
 routes.post("/signup", AuthCompanyValidator.signup, new CreateCompanyController().handle);
+
+/* stripe services */
 routes.post("/create-stripe-express", JwtAuthMiddleware, new HandleCreateStripeExpress().handle);
 routes.get("/onboarded", JwtAuthMiddleware, new HandleOnboardedStripe().handle);
-
 routes.get("/responsible-data", JwtAuthMiddleware, new GetResponsibleDataController().handle);
 routes.get("/subscription-status", JwtAuthMiddleware, new HandleRetrieveSubscription().handle);
 routes.post("/subscription-renew", JwtAuthMiddleware, new CreateNewSubscriptionController().handle);
+routes.get("/subscription", JwtAuthMiddleware, new HandleGetSubscriptionData().handle);
+routes.post("/cancel-subscription", JwtAuthMiddleware, new HandleCancelSubscription().handle);
 
 routes.get("/:companyId/address", JwtAuthMiddleware, new GetAddressController().handle);
 routes.put("/updateaddress", JwtAuthMiddleware, new UpdateAddressController().handle);
