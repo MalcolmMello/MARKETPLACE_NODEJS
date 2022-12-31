@@ -3,11 +3,12 @@ import { UpdateAddressService } from "../../services/companies/UpdateAddressServ
 
 export class UpdateAddressController {
     async handle(request: Request, response: Response) {
-        const { street, district, zip_code, city, state, country, address_number, longitude, latitude, companyId } = request.body;
+        const {display_name, number, lat, long, companyId } = request.body;
         const responsibleId = request.userId;
+
         const updateAddressService = new UpdateAddressService();
 
-        const result = await updateAddressService.execute({companyId, street, district, zip_code, city, state, country, address_number, longitude, latitude});
+        const result = await updateAddressService.execute({ responsibleId, companyId, display_name, number, lat, long});
 
         if(result instanceof Error) {
             return response.status(400).json(result.message);
