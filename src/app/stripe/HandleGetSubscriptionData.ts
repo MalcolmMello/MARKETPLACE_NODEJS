@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import Stripe from "stripe";
 import { stripe } from "../helpers/stripe";
 import { responsibleRepository } from "../repositories";
 

@@ -24,7 +24,7 @@ export class HandleCancelSubscription {
             const result = {
                 id: subscription.id,
                 status: subscription.status
-            }
+            };
 
             return response.json(result);
         } catch (error) {

@@ -17,7 +17,7 @@ export class HandleRetrieveSubscription {
             return response.json({ status: responsible.subscription_id });
         }
 
-        const subscription = await stripe.subscriptions.retrieve(responsible.subscription_id);
+        const subscription = await stripe.subscriptions.retrieve(responsible.subscription_id, {expand: ['latest_invoice.payment_intent']});
                 
         responsible.subscription_status = subscription.status;
 
