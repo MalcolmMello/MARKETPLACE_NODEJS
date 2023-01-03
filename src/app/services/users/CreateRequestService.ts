@@ -23,6 +23,7 @@ type RequestData = {
         }
     }
 };
+
 type RequestProductData = {
     product_id: string,
     product_name: string,

@@ -27,6 +27,7 @@ import { CreateNewSubscriptionController } from "../app/controllers/companies/Cr
 import { GetResponsibleDataController } from "../app/controllers/companies/GetResponsibleDataController";
 import { HandleGetSubscriptionData } from "../app/stripe/HandleGetSubscriptionData";
 import { HandleCancelSubscription } from "../app/stripe/HandleCancelSubscription";
+import { GetTodayFinancialStatusController } from "../app/controllers/companies/GetTodayFinancialStatusController";
 
 const upload = multer({
     dest: './tmp',
@@ -68,6 +69,9 @@ routes.get("/product/:productId", JwtAuthMiddleware, new GetOneProductController
 routes.get("/:companyId/request", JwtAuthMiddleware, new GetAllRequestsController().handle);
 routes.get("/request/:requestId", JwtAuthMiddleware, new GetOneRequestController().handle);
 routes.put("/changerequeststatus/:requestId", JwtAuthMiddleware, new ChangeRequestStatusController().handle);
+
+/* finances routes */
+routes.get("/:companyId/today-finances", JwtAuthMiddleware, new GetTodayFinancialStatusController().handle);
 
 routes.get("/:companyId/perfil", JwtAuthMiddleware, new GetPerfilDataController().handle);
 routes.post("/perfil", JwtAuthMiddleware, upload.fields([

@@ -73,10 +73,10 @@ export class Companies {
     longitude!: number;
 
     @CreateDateColumn()
-    created_at!: string;
+    created_at!: Date;
 
     @UpdateDateColumn()
-    updated_at!: string;
+    updated_at!: Date;
 
     constructor() {
         if(!this.id) {
