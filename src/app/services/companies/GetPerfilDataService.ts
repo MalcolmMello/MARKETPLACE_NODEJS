@@ -62,11 +62,14 @@ export class GetPerfilDataService {
             company_email: existCompany.email,
             description: existCompany.description,
             phone_number: existCompany.phone_number,
+            lat: existCompany.latitude,
+            long: existCompany.longitude,
             cnpj: existCompany.cnpj,
             subscription_status: existResponsible.subscription_status,
             onboarding: existCompany.onboardingComplete,
             logo: existCompany.logo != null ? `http://localhost:5000/media/${existCompany.logo}.jpg` : existCompany.logo,
-            cover: existCompany.cover != null ? `http://localhost:5000/media/${existCompany.cover}.jpg` : existCompany.cover
+            cover: existCompany.cover != null ? `http://localhost:5000/media/${existCompany.cover}.jpg` : existCompany.cover,
+            operatingRadius: existCompany.radius
         };
 
         return result;

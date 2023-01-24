@@ -72,6 +72,9 @@ export class Companies {
     @Column({ type:"float8", nullable: true })
     longitude!: number;
 
+    @Column({ type:"float8", nullable: true })
+    radius!: number;
+
     @CreateDateColumn()
     created_at!: Date;
 

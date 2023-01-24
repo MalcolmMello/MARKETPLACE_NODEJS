@@ -28,6 +28,7 @@ import { GetResponsibleDataController } from "../app/controllers/companies/GetRe
 import { HandleGetSubscriptionData } from "../app/stripe/HandleGetSubscriptionData";
 import { HandleCancelSubscription } from "../app/stripe/HandleCancelSubscription";
 import { GetTodayFinancialStatusController } from "../app/controllers/companies/GetTodayFinancialStatusController";
+import { UpdateOperatingRadiusController } from "../app/controllers/companies/UpdateOperatingRadiusController";
 
 const upload = multer({
     dest: './tmp',
@@ -54,6 +55,7 @@ routes.post("/cancel-subscription", JwtAuthMiddleware, new HandleCancelSubscript
 
 routes.get("/:companyId/address", JwtAuthMiddleware, new GetAddressController().handle);
 routes.put("/updateaddress", JwtAuthMiddleware, new UpdateAddressController().handle);
+routes.post("/edit-radius", JwtAuthMiddleware, new UpdateOperatingRadiusController().handle);
 
 routes.post("/category", JwtAuthMiddleware, new CreateCategoryProductController().handle);
 routes.put("/category/:categoryId", JwtAuthMiddleware, new UpdateCategoryProductController().handle);
